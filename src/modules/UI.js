@@ -2,13 +2,10 @@ import binIcon from "../icons/bin-icon.png";
 import pencilIcon from "../icons/pencil-outline.png";
 import plusIcon from "../icons/plus.png";
 import projectIcon from "../images/check-icon.png";
+import { addProject, getAllProjects, defaultProject } from "./logic.js";
 
-// Import functions from logic.js
-import { addProject, getAllProjects } from "./logic.js";
-
-// EXTEND THIS FUNCTION, IT SHOULDNT ONLY CREATE NAV
-// IT SHOUOL HANDLE ALL DOM INTERRACTIONS
-
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Function to create navigator bar (static - always the same)
 export default function createNav() {
   const nav = document.querySelector("nav");
@@ -37,7 +34,8 @@ export default function createNav() {
 
   createProjects();
 }
-
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Function that creates selected project header
 export function createProjects() {
   const content = document.getElementById("content");
@@ -46,7 +44,7 @@ export function createProjects() {
   currentProjectDiv.classList.add("current-project-div");
 
   // This will need to be edited
-  currentProjectDiv.textContent = "Default Project (Placeholder)";
+  currentProjectDiv.textContent = defaultProject;
 
   const currentProjectDivIcons = document.createElement("div");
   currentProjectDivIcons.classList.add("current-project-div-icons");
@@ -89,6 +87,8 @@ export function createProjects() {
   });
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Function to display the project modal
 export function displayProjectModal() {
   // Modal overlay
@@ -153,6 +153,7 @@ export function displayProjectModal() {
       addProject(projectName);
       getAllProjects();
       renderProjects();
+      // Last project in the projects array - AKA. Last added project should have a class of selected - ut should also be displayed.
       document.body.removeChild(modalOverlay);
     } else {
       alert("Project name is required!");
@@ -160,6 +161,8 @@ export function displayProjectModal() {
   });
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Rendering new projects
 function renderProjects() {
   const projectSidebarParent = document.querySelector(
@@ -177,14 +180,19 @@ function renderProjects() {
     projectDiv.textContent = project.name;
     projectDiv.classList.add("project");
 
+    // When you switch between elements, remember to use add and remove classes!
     projectDiv.addEventListener("click", () => {
+      const selected = document.querySelector(".selected");
+      if (selected) {
+        selected.classList.remove("selected");
+      }
+
+      projectDiv.classList.add("selected");
+
       const selectedProject = project.name;
       console.log("Selected project is: ", selectedProject);
-      //console.log(`Project selected: ${project.name}`);
       const currentProjectDiv = document.querySelector(".current-project-div");
       currentProjectDiv.textContent = selectedProject;
-    
-
 
       // Add function here to mark that project
     });
