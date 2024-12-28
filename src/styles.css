@@ -185,11 +185,30 @@
   height: 25px;
   margin-left: auto;
   margin-right: 0;
-
 }
-
 
 .project {
   width: 300px;
-  padding: 20px
+  padding: 20px;
+  display: flex;
+  color: #555;
 }
+
+.task-counter {
+  margin-left: auto;
+  margin-right: 2.5px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  background-color: gray;
+  color: white;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+

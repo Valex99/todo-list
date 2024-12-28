@@ -34,6 +34,8 @@ export default function createNav() {
   navDiv.appendChild(githubButton);
 
   nav.appendChild(navDiv);
+
+  createProjects();
 }
 
 // Function that creates selected project header
@@ -42,6 +44,8 @@ export function createProjects() {
 
   const currentProjectDiv = document.createElement("div");
   currentProjectDiv.classList.add("current-project-div");
+
+  // This will need to be edited
   currentProjectDiv.textContent = "Default Project (Placeholder)";
 
   const currentProjectDivIcons = document.createElement("div");
@@ -148,9 +152,7 @@ export function displayProjectModal() {
       console.log("New project name:", projectName);
       addProject(projectName);
       getAllProjects();
-      //console.log("Projects array", projects);
       renderProjects();
-
       document.body.removeChild(modalOverlay);
     } else {
       alert("Project name is required!");
@@ -163,10 +165,9 @@ function renderProjects() {
   const projectSidebarParent = document.querySelector(
     ".project-sidebar-parent-div"
   );
-  //projectSidebarParent.innerHTML = "";
   const displayedProject = document.querySelectorAll(".project");
   displayedProject.forEach((item) => {
-    projectSidebarParent.removeChild(item)
+    projectSidebarParent.removeChild(item);
   });
 
   const allProjects = getAllProjects();
@@ -175,10 +176,28 @@ function renderProjects() {
     const projectDiv = document.createElement("div");
     projectDiv.textContent = project.name;
     projectDiv.classList.add("project");
+
+    projectDiv.addEventListener("click", () => {
+      const selectedProject = project.name;
+      console.log("Selected project is: ", selectedProject);
+      //console.log(`Project selected: ${project.name}`);
+      const currentProjectDiv = document.querySelector(".current-project-div");
+      currentProjectDiv.textContent = selectedProject;
+    
+
+
+      // Add function here to mark that project
+    });
+
+    const taskCounter = document.createElement("p");
+    taskCounter.classList.add("task-counter");
+    // UPDATE THIS WITH FUNCTION CALL LATER
+    taskCounter.textContent = "0";
+    projectDiv.appendChild(taskCounter);
     projectSidebarParent.appendChild(projectDiv);
   });
 }
 
-//export { renderProjects };
+export { renderProjects };
 // SOlution, add a new div and place preoject-sidebar in it (parent div to project sidebar)
 // Let parent div have display flex direction column and keep direction row to sidebar div
