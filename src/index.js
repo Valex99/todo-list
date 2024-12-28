@@ -1,8 +1,28 @@
 import "./styles.css";
 
-//import projectIcon from "./images/check-icon.png";
-import createNav from "./modules/nav";
-import createProjects from "./modules/projects";
+import createNav from "./modules/UI";
+import { createProjects } from "./modules/UI";
+//import { renderProjects } from "./modules/UI";
 
+/* HOW AN ARRAY OF OBJECT SHOULD LOOK LIKE
+
+let TODO = [
+    {
+        name: "Default Project",
+        tasks: [
+            { name: "Do homework", priority: "first" },
+            { name: "Do the laundry", priority: "second" }
+            ]
+            },
+            {
+                name: "First Project",
+                tasks: [
+                    { name: "Pay the bills", priority: "first" },
+                    { name: "Call a mechanic", priority: "second" }
+                    ]
+                    }
+                    ];
+                    */
 createNav();
-createProjects(); //Maybe let the function take in an argument which project we are on
+createProjects();
+//renderProjects();
