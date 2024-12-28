@@ -216,5 +216,6 @@
 /* Selected project */
 .selected{
   background-color: red;
+  color: black;
 }
 

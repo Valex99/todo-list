@@ -2,7 +2,12 @@ import binIcon from "../icons/bin-icon.png";
 import pencilIcon from "../icons/pencil-outline.png";
 import plusIcon from "../icons/plus.png";
 import projectIcon from "../images/check-icon.png";
-import { addProject, getAllProjects, defaultProject } from "./logic.js";
+import {
+  addProject,
+  getAllProjects,
+  defaultProject,
+  getLastAddedProject,
+} from "./logic.js";
 
 /////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -151,8 +156,14 @@ export function displayProjectModal() {
     if (projectName) {
       console.log("New project name:", projectName);
       addProject(projectName);
-      getAllProjects();
+      //getAllProjects();
       renderProjects();
+
+      // THIS FUNCTION HOLDS THE REFERENCE TO LAST ADDED PROJECT
+      // Call function to add class selected to it.
+      //console.log("Last Added project is: ");
+      //getLastAddedProject();#
+
       // Last project in the projects array - AKA. Last added project should have a class of selected - ut should also be displayed.
       document.body.removeChild(modalOverlay);
     } else {
@@ -168,27 +179,24 @@ function renderProjects() {
   const projectSidebarParent = document.querySelector(
     ".project-sidebar-parent-div"
   );
-  const displayedProject = document.querySelectorAll(".project");
-  displayedProject.forEach((item) => {
-    projectSidebarParent.removeChild(item);
-  });
 
+  // First remove all appended projects
+  removeAllAppendedItems();
+
+  // Get all projects from projects array and for each
   const allProjects = getAllProjects();
-  console.log("Function: renderProjects Activated", allProjects);
   allProjects.forEach((project) => {
+    // Create a new div, name it as project is called and add class .project to that div
     const projectDiv = document.createElement("div");
     projectDiv.textContent = project.name;
     projectDiv.classList.add("project");
 
     // When you switch between elements, remember to use add and remove classes!
+    // Add event listener to each project div
     projectDiv.addEventListener("click", () => {
-      const selected = document.querySelector(".selected");
-      if (selected) {
-        selected.classList.remove("selected");
-      }
+      removeSelectedClass();
 
       projectDiv.classList.add("selected");
-
       const selectedProject = project.name;
       console.log("Selected project is: ", selectedProject);
       const currentProjectDiv = document.querySelector(".current-project-div");
@@ -206,6 +214,29 @@ function renderProjects() {
   });
 }
 
+function removeAllAppendedItems() {
+  const projectSidebarParent = document.querySelector(
+    ".project-sidebar-parent-div"
+  );
+  const displayedProject = document.querySelectorAll(".project");
+  displayedProject.forEach((item) => {
+    projectSidebarParent.removeChild(item);
+  });
+}
+
+// Select element with class .selected, if there is any remove it!
+function removeSelectedClass() {
+  const selected = document.querySelector(".selected");
+  if (selected) {
+    selected.classList.remove("selected");
+  }
+}
+
 export { renderProjects };
 // SOlution, add a new div and place preoject-sidebar in it (parent div to project sidebar)
 // Let parent div have display flex direction column and keep direction row to sidebar div
+
+// getLastAddedProject HOLDS THE REFERENCE TO THE LAST ADDED PROJECT, CHECK CONSOLE
+// FIGURE OUT HOW TO HIGHLIGHT IT EACH TIME A PROJECT IS ADDED!
+
+// EXPLAIN CODE TO YOURSELF - WHAT CALLS WHAT!

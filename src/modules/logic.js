@@ -32,7 +32,20 @@ function initializeDefaultProject() {
   }
 }
 
-export { addProject, getAllProjects, removeProject, initializeDefaultProject, defaultProject };
+// Function to track last added project
+function getLastAddedProject() {
+  console.log(projects.length > 0 ? projects[projects.length - 1] : null);
+  return projects.length > 0 ? projects[projects.length - 1] : null;
+}
+
+export {
+  addProject,
+  getAllProjects,
+  removeProject,
+  initializeDefaultProject,
+  defaultProject,
+  getLastAddedProject,
+};
 
 // Figure out how can you import all of those three things to UI module.
 
