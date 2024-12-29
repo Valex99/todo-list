@@ -17,31 +17,31 @@ function getAllProjects() {
   return projects;
 }
 
-function removeProject(name) {
-  const index = projects.findIndex((project) => project.name === name);
-  if (index !== -1) {
-    projects.splice(index, 1);
-  }
-}
+// function removeProject(name) {
+//   const index = projects.findIndex((project) => project.name === name);
+//   if (index !== -1) {
+//     projects.splice(index, 1);
+//   }
+// }
 
 function initializeDefaultProject() {
   const allProjects = getAllProjects();
   if (allProjects.length === 0) {
     addProject("Default Project");
-    console.log("Default project added: ", getAllProjects());
+    console.log("1 Default project added: ", getAllProjects());
   }
 }
 
 // Function to track last added project
 function getLastAddedProject() {
-  console.log(projects.length > 0 ? projects[projects.length - 1] : null);
+  console.log("2",projects.length > 0 ? projects[projects.length - 1] : null);
   return projects.length > 0 ? projects[projects.length - 1] : null;
 }
 
 export {
   addProject,
   getAllProjects,
-  removeProject,
+  //removeProject,
   initializeDefaultProject,
   defaultProject,
   getLastAddedProject,

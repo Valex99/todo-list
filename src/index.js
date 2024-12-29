@@ -1,9 +1,9 @@
 import "./styles.css";
 
-import createNav from "./modules/UI";
+//import createNav from "./modules/UI";
 import { createProjects } from "./modules/UI";
 import { initializeDefaultProject } from "./modules/logic";
-import { renderProjects } from "./modules/UI";
+import { createNav, renderProjects } from "./modules/UI";
 //import { renderProjects } from "./modules/UI";
 
 /* HOW AN ARRAY OF OBJECT SHOULD LOOK LIKE
@@ -27,7 +27,7 @@ let TODO = [
                     */
 createNav();
 //createProjects();
-initializeDefaultProject();
-renderProjects();
+//initializeDefaultProject();
+//renderProjects();
 //getLastAddedProject();
 //renderProjects();
