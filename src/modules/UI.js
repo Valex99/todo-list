@@ -5,12 +5,12 @@ import projectIcon from "../images/check-icon.png";
 import {
   addProject,
   getAllProjects,
-  defaultProject,
   getLastAddedProject,
   removeProject,
   initializeDefaultProject,
   taskAmount,
   projectCout,
+  changeName,
 } from "./logic.js";
 
 let selected = null;
@@ -96,6 +96,13 @@ function appendHeaderIcons() {
 
   currentProjectDiv.appendChild(currentProjectDivIcons);
 
+  pencil.addEventListener("click", () => {
+    editProjectName();
+    // Open modal that allows you to change name of the project
+    // It should also change name of project header
+    // And project sidebar
+  });
+
   bin.addEventListener("click", () => {
     // Check if there is more than one project present
     if (projectCout() <= 1) {
@@ -122,9 +129,9 @@ function appendHeaderIcons() {
       remainingProjects.forEach((project) => {
         const projectName = project.querySelector("p").textContent;
         if (projectName === selected) {
-            project.classList.add("selected")
+          project.classList.add("selected");
         }
-      });;
+      });
     }
   });
 }
@@ -166,7 +173,7 @@ function displayProjectModal() {
 
   // Title
   const modalTitle = document.createElement("h2");
-  modalTitle.textContent = "Project";
+  modalTitle.textContent = "Add New Project";
 
   // Close button
   const closeButton = document.createElement("button");
@@ -209,6 +216,7 @@ function displayProjectModal() {
       document.body.removeChild(modalOverlay);
     }
   });
+
   // Handle submit button (add your logic here)
   submitButton.addEventListener("click", () => {
     const projectName = inputField.value.trim();
@@ -282,6 +290,85 @@ function removeSelectedClass() {
     selected.classList.remove("selected");
   }
 }
-// Handle clicks on edit and trash icons
+// Hnadle clicks on edit icons
 // Add button to add tasks to projects
 // Maybe query dom for items as a global variables so you dont have to do it twice
+function editProjectName() {
+  // Modal overlay
+  const modalOverlay = document.createElement("div");
+  modalOverlay.classList.add("modal-overlay");
+
+  // Modal content
+  const modalContent = document.createElement("div");
+  modalContent.classList.add("modal-content");
+
+  // Title
+  const modalTitle = document.createElement("h2");
+  modalTitle.textContent = "Edit Project Name";
+
+  // Close button
+  const closeButton = document.createElement("button");
+  closeButton.classList.add("modal-close");
+  closeButton.textContent = "✕";
+
+  // Input field
+  const inputContainer = document.createElement("div");
+  const inputLabel = document.createElement("label");
+  inputLabel.textContent = "Name";
+  const inputField = document.createElement("input");
+  inputField.type = "text";
+  inputField.placeholder = selected;
+
+  inputContainer.appendChild(inputLabel);
+  inputContainer.appendChild(inputField);
+
+  // Submit button
+  const submitButton = document.createElement("button");
+  submitButton.classList.add("modal-submit");
+  submitButton.textContent = "SUBMIT";
+
+  // Append children to modal
+  modalContent.appendChild(modalTitle);
+  modalContent.appendChild(closeButton);
+  modalContent.appendChild(inputContainer);
+  modalContent.appendChild(submitButton);
+  modalOverlay.appendChild(modalContent);
+
+  // Add the modal to the body
+  document.body.appendChild(modalOverlay);
+
+  // Close modal logic
+  closeButton.addEventListener("click", () => {
+    document.body.removeChild(modalOverlay);
+  });
+  // Close modal when clicking on the overlay (background)
+  modalOverlay.addEventListener("click", (e) => {
+    if (e.target === modalOverlay) {
+      document.body.removeChild(modalOverlay);
+    }
+  });
+
+  // New project name shouldnt be the same as any existing project
+  // This function should also be called as new projects are created
+  // Handle submit button (add your logic here)
+  submitButton.addEventListener("click", () => {
+    const newName = inputField.value.trim();
+    console.log(newName);
+    if (newName && newName !== selected) {
+      console.log("Edited project name:", newName);
+      // Call function that editsProjectName
+      changeName(selected, newName);
+
+      // Change name updated array -> now update UI
+
+      // Update selected
+      selected = newName;
+
+      // Update project header
+
+      // Update project sidebar
+    } else {
+      alert("Project name is required!");
+    }
+  });
+}

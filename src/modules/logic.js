@@ -1,6 +1,6 @@
 const projects = [];
 
-const defaultProject = "Default Project";
+//const defaultProject = "Default Project";
 
 function Project(name) {
   return { name, tasks: [] }; // Each project has tasks
@@ -17,13 +17,13 @@ function getAllProjects() {
   return projects;
 }
 
- function removeProject(name) {
-   const index = projects.findIndex((project) => project.name === name);
-   if (index !== -1) {
-     projects.splice(index, 1);
-   }
-   //console.log("AFTER REMOVED PROJECT:", projects);
- }
+function removeProject(name) {
+  const index = projects.findIndex((project) => project.name === name);
+  if (index !== -1) {
+    projects.splice(index, 1);
+  }
+  //console.log("AFTER REMOVED PROJECT:", projects);
+}
 
 function initializeDefaultProject() {
   const allProjects = getAllProjects();
@@ -41,13 +41,24 @@ function getLastAddedProject() {
 
 function taskAmount() {
   const lastAddedProject = getLastAddedProject();
-  const taskAmount = lastAddedProject.tasks.length
+  const taskAmount = lastAddedProject.tasks.length;
   // It has to return something - otherwise it cant be used
   return taskAmount;
 }
 
 function projectCout() {
-    return projects.length;
+  return projects.length;
+}
+
+function changeName(oldName, newName) {
+  // findIndex method expects a callback function
+  const index = projects.findIndex((project) => project === oldName);
+  // Create a new object with the updated name but keep the other properties the same
+
+  const updatedProject = { ...projects[index], name: newName };
+  // at index, take out 1 item and add updatedProject item instead
+  projects.splice(index, 1, updatedProject);
+  return projects;
 }
 
 export {
@@ -55,10 +66,10 @@ export {
   getAllProjects,
   removeProject,
   initializeDefaultProject,
-  defaultProject,
   getLastAddedProject,
   taskAmount,
   projectCout,
+  changeName,
 };
 
 // Figure out how can you import all of those three things to UI module.
