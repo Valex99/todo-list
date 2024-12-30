@@ -13,7 +13,7 @@ function addProject(name) {
 }
 
 function getAllProjects() {
-  console.log("Projects Array: ", projects);
+  //console.log("Projects Array: ", projects);
   return projects;
 }
 
@@ -22,20 +22,20 @@ function getAllProjects() {
    if (index !== -1) {
      projects.splice(index, 1);
    }
-   console.log("AFTER REMOVED PROJECT:", projects);
+   //console.log("AFTER REMOVED PROJECT:", projects);
  }
 
 function initializeDefaultProject() {
   const allProjects = getAllProjects();
   if (allProjects.length === 0) {
     addProject("Default Project");
-    console.log("1 Default project added: ", getAllProjects());
+    //console.log("1 Default project added: ", getAllProjects());
   }
 }
 
 // Function to track last added project
 function getLastAddedProject() {
-  console.log("2", projects.length > 0 ? projects[projects.length - 1] : null);
+  //console.log("2", projects.length > 0 ? projects[projects.length - 1] : null);
   return projects.length > 0 ? projects[projects.length - 1] : null;
 }
 
@@ -49,7 +49,6 @@ function taskAmount() {
 function projectCout() {
     return projects.length;
 }
-
 
 export {
   addProject,

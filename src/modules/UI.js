@@ -63,8 +63,6 @@ function createProjectHeader() {
 
   // First this needs to be called
   updateProjectHeader();
-  // Then this, otherwise icons are not appended
-  //appendHeaderIcons();
   // Once header is created, append sidebar to it
   projectSidebar();
 }
@@ -73,7 +71,7 @@ function createProjectHeader() {
 function updateProjectHeader() {
   const projectHeader = document.querySelector(".current-project-div");
   const lastAddedProject = getLastAddedProject().name;
-  console.log(lastAddedProject);
+  //console.log(lastAddedProject);
   projectHeader.textContent = lastAddedProject;
 
   appendHeaderIcons();
@@ -110,12 +108,24 @@ function appendHeaderIcons() {
         ".project-sidebar-parent-div"
       );
 
+      // Remove project
       projectSidebarParent.removeChild(selectedProject);
-    }
 
-    selected = getLastAddedProject().name
-    console.log("Selected after removing:" ,selected);
-    
+      // set selected to last project in the projects array
+      selected = getLastAddedProject().name;
+      console.log("Selected after removing:", selected);
+
+      // Select last project in the array -> Highlight it and set header text content
+      updateProjectHeader();
+
+      const remainingProjects = document.querySelectorAll(".project");
+      remainingProjects.forEach((project) => {
+        const projectName = project.querySelector("p").textContent;
+        if (projectName === selected) {
+            project.classList.add("selected")
+        }
+      });;
+    }
   });
 }
 
@@ -256,7 +266,7 @@ function renderNewProject() {
 
     projectDiv.classList.add("selected");
     selected = projectName.textContent;
-    console.log(selected);
+    //console.log(selected);
     currentProjectDiv.textContent = selected;
 
     appendHeaderIcons();
@@ -272,7 +282,6 @@ function removeSelectedClass() {
     selected.classList.remove("selected");
   }
 }
-
 // Handle clicks on edit and trash icons
 // Add button to add tasks to projects
 // Maybe query dom for items as a global variables so you dont have to do it twice
