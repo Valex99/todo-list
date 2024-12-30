@@ -58,7 +58,7 @@ function createProjectHeader() {
   // First this needs to be called
   updateProjectHeader();
   // Then this, otherwise icons are not appended
-  appendHeaderIcons();
+  //appendHeaderIcons();
   // Once header is created, append sidebar to it
   projectSidebar();
 }
@@ -69,6 +69,8 @@ function updateProjectHeader() {
   const lastAddedProject = getLastAddedProject().name;
   console.log(lastAddedProject);
   projectHeader.textContent = lastAddedProject;
+
+  appendHeaderIcons();
 }
 
 function appendHeaderIcons() {
@@ -199,6 +201,9 @@ function renderNewProject() {
   // Call function to remove all selected classes BEFORE adding IT
   removeSelectedClass();
 
+  // Must call it!
+  updateProjectHeader()
+
   projectDiv.textContent = lastAddedProject;
   projectDiv.classList.add("project");
   projectDiv.classList.add("selected");
@@ -206,7 +211,6 @@ function renderNewProject() {
   // Add event listener to each project div
   projectDiv.addEventListener("click", () => {
     removeSelectedClass();
-
     const currentProjectDiv = document.querySelector(".current-project-div");
 
     projectDiv.classList.add("selected");
