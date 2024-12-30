@@ -196,17 +196,29 @@ function renderNewProject() {
   );
 
   const projectDiv = document.createElement("div");
+  const projectName = document.createElement("p");
   const lastAddedProject = getLastAddedProject().name;
 
   // Call function to remove all selected classes BEFORE adding IT
   removeSelectedClass();
 
   // Must call it!
-  updateProjectHeader()
+  updateProjectHeader();
 
-  projectDiv.textContent = lastAddedProject;
+  //projectDiv.textContent = lastAddedProject;
+  projectName.textContent = lastAddedProject;
   projectDiv.classList.add("project");
   projectDiv.classList.add("selected");
+
+  const taskCounter = document.createElement("p");
+  taskCounter.classList.add("task-counter");
+
+  // UPDATE THIS WITH FUNCTION CALL LATER
+  taskCounter.textContent = "0";
+
+  projectDiv.appendChild(projectName);
+  projectDiv.appendChild(taskCounter);
+  projectSidebarParent.appendChild(projectDiv);
 
   // Add event listener to each project div
   projectDiv.addEventListener("click", () => {
@@ -214,20 +226,12 @@ function renderNewProject() {
     const currentProjectDiv = document.querySelector(".current-project-div");
 
     projectDiv.classList.add("selected");
-    selected = projectDiv.textContent;
+    selected = projectName.textContent;
     console.log(selected);
     currentProjectDiv.textContent = selected;
 
     appendHeaderIcons();
   });
-
-  const taskCounter = document.createElement("p");
-  taskCounter.classList.add("task-counter");
-  
-  // UPDATE THIS WITH FUNCTION CALL LATER
-  taskCounter.textContent = "0";
-  projectDiv.appendChild(taskCounter);
-  projectSidebarParent.appendChild(projectDiv);
 }
 
 // Select element with class .selected, if there is any remove it!
