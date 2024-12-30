@@ -75,6 +75,12 @@
   height: 25px;
   filter: invert(100);
   cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.current-project-div-icons img:active {
+  transform: scale(0.9); /* Slightly shrink the icon */
+  opacity: 0.8;         /* Reduce opacity slightly */
 }
 
 /* Modal style */

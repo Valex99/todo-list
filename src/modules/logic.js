@@ -17,12 +17,13 @@ function getAllProjects() {
   return projects;
 }
 
-// function removeProject(name) {
-//   const index = projects.findIndex((project) => project.name === name);
-//   if (index !== -1) {
-//     projects.splice(index, 1);
-//   }
-// }
+ function removeProject(name) {
+   const index = projects.findIndex((project) => project.name === name);
+   if (index !== -1) {
+     projects.splice(index, 1);
+   }
+   console.log("AFTER REMOVED PROJECT:", projects);
+ }
 
 function initializeDefaultProject() {
   const allProjects = getAllProjects();
@@ -45,15 +46,20 @@ function taskAmount() {
   return taskAmount;
 }
 
+function projectCout() {
+    return projects.length;
+}
+
 
 export {
   addProject,
   getAllProjects,
-  //removeProject,
+  removeProject,
   initializeDefaultProject,
   defaultProject,
   getLastAddedProject,
   taskAmount,
+  projectCout,
 };
 
 // Figure out how can you import all of those three things to UI module.

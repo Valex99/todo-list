@@ -7,8 +7,10 @@ import {
   getAllProjects,
   defaultProject,
   getLastAddedProject,
+  removeProject,
   initializeDefaultProject,
   taskAmount,
+  projectCout,
 } from "./logic.js";
 
 let selected = null;
@@ -42,6 +44,9 @@ export function createNav() {
   // FUNCTION CALLS:
   // When nav is created add default project to projects array
   initializeDefaultProject();
+  // Update selected ->
+  selected = getLastAddedProject().name;
+
   // Create header element
   createProjectHeader();
 }
@@ -92,6 +97,26 @@ function appendHeaderIcons() {
   currentProjectDivIcons.appendChild(bin);
 
   currentProjectDiv.appendChild(currentProjectDivIcons);
+
+  bin.addEventListener("click", () => {
+    // Check if there is more than one project present
+    if (projectCout() <= 1) {
+      alert("App requires a minimum of one project!");
+    } else {
+      removeProject(selected); // THIS THING WORKS
+      // Now project needs to be removed from the dom!
+      const selectedProject = document.querySelector(".selected");
+      const projectSidebarParent = document.querySelector(
+        ".project-sidebar-parent-div"
+      );
+
+      projectSidebarParent.removeChild(selectedProject);
+    }
+
+    selected = getLastAddedProject().name
+    console.log("Selected after removing:" ,selected);
+    
+  });
 }
 
 function projectSidebar() {
@@ -183,6 +208,7 @@ function displayProjectModal() {
       addProject(projectName);
       // Then display new project
       renderNewProject();
+      selected = projectName;
       document.body.removeChild(modalOverlay);
     } else {
       alert("Project name is required!");
@@ -223,7 +249,9 @@ function renderNewProject() {
 
   // Add event listener to each project div
   projectDiv.addEventListener("click", () => {
+    // Clear any selected class first
     removeSelectedClass();
+
     const currentProjectDiv = document.querySelector(".current-project-div");
 
     projectDiv.classList.add("selected");
@@ -245,15 +273,6 @@ function removeSelectedClass() {
   }
 }
 
-// SOlution, add a new div and place preoject-sidebar in it (parent div to project sidebar)
-// Let parent div have display flex direction column and keep direction row to sidebar div
-
-// getLastAddedProject HOLDS THE REFERENCE TO THE LAST ADDED PROJECT, CHECK CONSOLE
-// FIGURE OUT HOW TO HIGHLIGHT IT EACH TIME A PROJECT IS ADDED!
-
-// EXPLAIN CODE TO YOURSELF - WHAT CALLS WHAT!
-
-// It should work like this...
-// Last project in the projects array is always selected (index - 1)
-// If user clicks on any of of the projects, call function to override selected project
-// first it clears all projects and then it selects that project
+// Handle clicks on edit and trash icons
+// Add button to add tasks to projects
+// Maybe query dom for items as a global variables so you dont have to do it twice
