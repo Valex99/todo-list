@@ -360,11 +360,17 @@ function editProjectName() {
       changeName(selected, newName);
 
       // Change name updated array -> now update UI
+      const projectHeader = document.querySelector(".current-project-div");
+      const selectedProject = document.querySelector(".selected");
 
       // Update selected
       selected = newName;
 
+      selectedProject.querySelector("p").textContent = selected;
+      projectHeader.textContent = selected;
+
       // Update project header
+      document.body.removeChild(modalOverlay);
 
       // Update project sidebar
     } else {
