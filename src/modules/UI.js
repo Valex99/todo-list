@@ -8,6 +8,7 @@ import {
   defaultProject,
   getLastAddedProject,
   initializeDefaultProject,
+  taskAmount,
 } from "./logic.js";
 
 let selected = null;
@@ -214,7 +215,7 @@ function renderNewProject() {
   taskCounter.classList.add("task-counter");
 
   // UPDATE THIS WITH FUNCTION CALL LATER
-  taskCounter.textContent = "0";
+  taskCounter.textContent = taskAmount();
 
   projectDiv.appendChild(projectName);
   projectDiv.appendChild(taskCounter);
@@ -231,6 +232,8 @@ function renderNewProject() {
     currentProjectDiv.textContent = selected;
 
     appendHeaderIcons();
+
+    taskAmount();
   });
 }
 

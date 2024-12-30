@@ -34,9 +34,17 @@ function initializeDefaultProject() {
 
 // Function to track last added project
 function getLastAddedProject() {
-  console.log("2",projects.length > 0 ? projects[projects.length - 1] : null);
+  console.log("2", projects.length > 0 ? projects[projects.length - 1] : null);
   return projects.length > 0 ? projects[projects.length - 1] : null;
 }
+
+function taskAmount() {
+  const lastAddedProject = getLastAddedProject();
+  const taskAmount = lastAddedProject.tasks.length
+  // It has to return something - otherwise it cant be used
+  return taskAmount;
+}
+
 
 export {
   addProject,
@@ -45,6 +53,7 @@ export {
   initializeDefaultProject,
   defaultProject,
   getLastAddedProject,
+  taskAmount,
 };
 
 // Figure out how can you import all of those three things to UI module.
