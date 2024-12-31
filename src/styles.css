@@ -319,7 +319,7 @@ html {
 
 
 .task {
-  background-color: yellowgreen;
+  background-color: white;
   min-height: 50px;
   display: flex;
   align-items: center;
@@ -332,10 +332,22 @@ html {
   position: absolute;
   height: 50px;
   width: 6px;
-  background-color: blue;
   top: 0;
   left: 0;
 }
+
+.blue {
+  background-color: darkblue;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.lightblue {
+  background-color: lightblue;
+}
+
 
 /* Task UI */
 .icons-div {

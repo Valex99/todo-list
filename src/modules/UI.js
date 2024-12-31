@@ -15,6 +15,7 @@ import {
 } from "./logic.js";
 
 let selected = null;
+let selectedTask = null;
 const content = document.getElementById("content");
 const html = document.querySelector("html");
 
@@ -283,6 +284,14 @@ function renderNewProject() {
     // Clear any selected class first
     removeSelectedClass();
 
+    // Clear task-container as well (bin icon should do the same)
+    const taskContainer = document.querySelector(".task-container");
+    taskContainer.innerHTML = "";
+    // This works
+    // Now call function that takes in as an argument a selected project
+    // Finds it in projects array (by name)
+    // And for each task of that project calls renderTask function
+
     const currentProjectDiv = document.querySelector(".current-project-div");
 
     projectDiv.classList.add("selected");
@@ -522,6 +531,8 @@ function displayTaskModal() {
 
     // add code here to push description and priority into array
     addTaskToSelectedProject(selected, description, priority);
+    console.log("Priority:", priority);
+    createAndAppendTasks(description, priority);
 
     if (description) {
       console.log("New Task:", { description, priority });
@@ -534,18 +545,26 @@ function displayTaskModal() {
   });
 }
 
-function createAndAppendTasks() {
+function createAndAppendTasks(description, priority) {
   const taskContainer = document.querySelector(".task-container");
 
   const task = document.createElement("div");
   task.classList.add("task");
   // This should be a description of the task
   // Get value from projects array
-  task.textContent = "WORKS";
+  task.textContent = description;
 
   // Color should be picked with IF (add class list to it)
   const priorityDiv = document.createElement("div");
   priorityDiv.classList.add("priority-div");
+
+  if (priority == "first-priority") {
+    priorityDiv.classList.add("blue");
+  } else if (priority == "second-priority") {
+    priorityDiv.classList.add("orange");
+  } else {
+    priorityDiv.classList.add("lightblue");
+  }
 
   // ADD AND APPEND ICONS
   const iconsDiv = document.createElement("div");
@@ -577,3 +596,10 @@ function removeNoTaskDivMessage() {
   taskContainer.removeChild(emptyTaskDiv);
   noTasksDivMessageExists = false;
 }
+
+// Click on DIFFERENT PROJECT or DELETING THE PROJECT should clear the task-container div
+
+// 287 - 293 END
+// Update task counter for each project, that should happen each time user clicks
+// sUBMIT BUTTON ON ADD TASK MODAL, A FUNCTION SHOULD RUN FOR THAT PROJECT
+// CREATEAND APPEND TASKS FUNCTION should only be called by logic.js for each project
