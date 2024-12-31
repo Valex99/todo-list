@@ -61,6 +61,21 @@ function changeName(oldName, newName) {
   return projects;
 }
 
+function addTaskToSelectedProject(
+  selectedProject,
+  taskDescription,
+  taskPriority
+) {
+  console.log(selectedProject, taskDescription, taskPriority);
+  // This finds the name of the current / selected project project
+  const currentProject = projects.find(
+    (project) => project.name === selectedProject
+  );
+  currentProject.tasks.push({ name: taskDescription, priority: taskPriority });
+  console.log("Task succesfully added to", selectedProject);
+  console.log(projects);
+}
+
 export {
   addProject,
   getAllProjects,
@@ -70,6 +85,7 @@ export {
   taskAmount,
   projectCout,
   changeName,
+  addTaskToSelectedProject,
 };
 
 // Figure out how can you import all of those three things to UI module.

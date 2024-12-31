@@ -11,6 +11,7 @@ import {
   taskAmount,
   projectCout,
   changeName,
+  addTaskToSelectedProject,
 } from "./logic.js";
 
 let selected = null;
@@ -512,17 +513,24 @@ function displayTaskModal() {
 
   // Handle submit button
   submitButton.addEventListener("click", () => {
-    removeNoTaskDivMessage();
-    createAndAppendTasks();
-    //   const description = descriptionTextarea.value.trim();
-    //   const priority = prioritySelect.value;
+    if (noTasksDivMessageExists === true) {
+      removeNoTaskDivMessage();
+    }
 
-    //   if (description) {
-    //     console.log("New Task:", { description, priority });
-    document.body.removeChild(modalOverlay);
-    //   } else {
-    //     alert("Description is required!");
-    //   }
+    const description = descriptionTextarea.value.trim();
+    const priority = prioritySelect.value;
+
+    // add code here to push description and priority into array
+    addTaskToSelectedProject(selected, description, priority);
+
+    if (description) {
+      console.log("New Task:", { description, priority });
+      document.body.removeChild(modalOverlay);
+      // This should be called later
+      //createAndAppendTasks();
+    } else {
+      alert("Description is required!");
+    }
   });
 }
 
@@ -532,6 +540,7 @@ function createAndAppendTasks() {
   const task = document.createElement("div");
   task.classList.add("task");
   // This should be a description of the task
+  // Get value from projects array
   task.textContent = "WORKS";
 
   // Color should be picked with IF (add class list to it)
@@ -540,7 +549,7 @@ function createAndAppendTasks() {
 
   // ADD AND APPEND ICONS
   const iconsDiv = document.createElement("div");
-  iconsDiv.classList.add("current-project-div-icons")
+  iconsDiv.classList.add("icons-div");
 
   const editIcon = document.createElement("img");
   editIcon.classList.add("task-icon");
@@ -548,7 +557,7 @@ function createAndAppendTasks() {
   editIcon.alt = "Edit Icon";
 
   const deleteIcon = document.createElement("img");
-  editIcon.classList.add("task-icon");
+  deleteIcon.classList.add("task-icon");
   deleteIcon.src = binIcon;
   deleteIcon.alt = "Delete Icon";
 
@@ -566,4 +575,5 @@ function removeNoTaskDivMessage() {
   const emptyTaskDiv = document.querySelector(".empty-task-div");
 
   taskContainer.removeChild(emptyTaskDiv);
+  noTasksDivMessageExists = false;
 }
