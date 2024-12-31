@@ -6,6 +6,15 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+html {
+  height: 100vh;
+  position: relative;
+}
+
+#content {
+  position: relative;
+}
+
 /* Navigator bar */
 .nav-div {
   height: 80px;
@@ -80,7 +89,7 @@
 
 .current-project-div-icons img:active {
   transform: scale(0.9); /* Slightly shrink the icon */
-  opacity: 0.8;         /* Reduce opacity slightly */
+  opacity: 0.8; /* Reduce opacity slightly */
 }
 
 /* Modal style */
@@ -175,6 +184,9 @@
 .project-sidebar-parent-div {
   display: flex;
   flex-direction: column;
+
+  /* This was added */
+  width: 300px;
 }
 
 .project-sidebar {
@@ -217,8 +229,52 @@
 }
 
 /* Selected project */
-.selected{
+.selected {
   background-color: red;
   color: black;
 }
 
+/* Add task div */
+.circle-div {
+  width: 50px;
+  height: 50px;
+  background-color: black;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+
+  right: 10px;
+  bottom: 10px;
+
+  cursor: pointer;
+}
+
+.circle-div:hover {
+  transform: scale(1.1); /* Grows slightly */
+  background-color: #333; /* Slightly lighter black */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Adds a shadow */
+}
+
+.circle-div:active {
+  transform: scale(0.9); /* Shrinks slightly */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6); /* Tighter shadow */
+}
+
+.plus {
+  color: white;
+  font-size: 40px;
+}
+
+/* Task container */
+.task-container {
+  position: absolute;
+  top: 56px;
+  left: 300px;
+
+  background-color: rebeccapurple;
+
+  width: calc(100% - 300px);
+  height: calc(100vh - 80px - 56px);
+}

@@ -14,6 +14,8 @@ import {
 } from "./logic.js";
 
 let selected = null;
+const content = document.getElementById("content");
+const html = document.querySelector("html");
 
 export function createNav() {
   const nav = document.querySelector("nav");
@@ -53,8 +55,6 @@ export function createNav() {
 
 // Function that creates selected project header
 function createProjectHeader() {
-  const content = document.getElementById("content");
-
   const currentProjectDiv = document.createElement("div");
   currentProjectDiv.classList.add("current-project-div");
 
@@ -65,6 +65,12 @@ function createProjectHeader() {
   updateProjectHeader();
   // Once header is created, append sidebar to it
   projectSidebar();
+
+  //
+  createAddTask();
+
+  //
+  taskDiv();
 }
 
 // Update project header -> last added project
@@ -98,9 +104,6 @@ function appendHeaderIcons() {
 
   pencil.addEventListener("click", () => {
     editProjectName();
-    // Open modal that allows you to change name of the project
-    // It should also change name of project header
-    // And project sidebar
   });
 
   bin.addEventListener("click", () => {
@@ -108,7 +111,7 @@ function appendHeaderIcons() {
     if (projectCout() <= 1) {
       alert("App requires a minimum of one project!");
     } else {
-      removeProject(selected); // THIS THING WORKS
+      removeProject(selected);
       // Now project needs to be removed from the dom!
       const selectedProject = document.querySelector(".selected");
       const projectSidebarParent = document.querySelector(
@@ -120,7 +123,7 @@ function appendHeaderIcons() {
 
       // set selected to last project in the projects array
       selected = getLastAddedProject().name;
-      console.log("Selected after removing:", selected);
+      //console.log("Selected after removing:", selected);
 
       // Select last project in the array -> Highlight it and set header text content
       updateProjectHeader();
@@ -369,6 +372,7 @@ function editProjectName() {
       selectedProject.querySelector("p").textContent = selected;
       projectHeader.textContent = selected;
 
+      appendHeaderIcons();
       // Update project header
       document.body.removeChild(modalOverlay);
 
@@ -378,3 +382,40 @@ function editProjectName() {
     }
   });
 }
+
+function createAddTask() {
+  const addTaskDiv = document.createElement("div");
+  addTaskDiv.classList.add("circle-div");
+
+  const plus = document.createElement("p");
+  plus.classList.add("plus");
+  plus.textContent = "+";
+
+  addTaskDiv.appendChild(plus);
+  html.appendChild(addTaskDiv);
+
+  // Add event listener
+}
+
+function taskDiv() {
+  const taskContainer = document.createElement("div");
+  taskContainer.classList.add("task-container");
+
+  //const currentProjectDiv = document.querySelector(".current-project-div")
+
+
+  content.appendChild(taskContainer);
+}
+// NEXT STEPS
+// Tasks on right side should always be displayed for current project
+// -> display all tasks for specific project
+// If there is no task, display on the right (no tasks for this project)
+// Add plus icon -> bottom right corner (to add tasks to project) - position abs rel
+// click on add task button should open modal with
+//    1. descriprion (textarea or input)
+//    2. priority (dropdown menu)
+//
+
+// TODO
+// Add functon that checks for the same names (no duplication)
+// figure out why your git host is not updating
