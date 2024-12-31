@@ -273,8 +273,18 @@ html {
   top: 56px;
   left: 300px;
 
-  background-color: rebeccapurple;
+  background-color: lightcoral;
 
   width: calc(100% - 300px);
   height: calc(100vh - 80px - 56px);
+
+  padding: 20px;
+}
+
+/* Empty task div */
+.empty-task-div {
+  text-align: center;
+  margin-top: 40px;
+  color: #333;
+  font-size: 14px;
 }

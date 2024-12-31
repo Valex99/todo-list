@@ -17,6 +17,8 @@ let selected = null;
 const content = document.getElementById("content");
 const html = document.querySelector("html");
 
+let zeroTasksDivExists = false;
+
 export function createNav() {
   const nav = document.querySelector("nav");
 
@@ -44,6 +46,8 @@ export function createNav() {
   nav.appendChild(navDiv);
 
   // FUNCTION CALLS:
+  // First call so taskdiv gets created - to append later
+  taskDiv();
   // When nav is created add default project to projects array
   initializeDefaultProject();
   // Update selected ->
@@ -68,9 +72,6 @@ function createProjectHeader() {
 
   //
   createAddTask();
-
-  //
-  taskDiv();
 }
 
 // Update project header -> last added project
@@ -262,6 +263,13 @@ function renderNewProject() {
   taskCounter.classList.add("task-counter");
 
   // UPDATE THIS WITH FUNCTION CALL LATER
+  if (taskAmount() === 0) {
+    noTasksDiv();
+    console.log("ZERO TASKS");
+  } else {
+    console.log("task amount is bigger than 0");
+  }
+
   taskCounter.textContent = taskAmount();
 
   projectDiv.appendChild(projectName);
@@ -402,10 +410,21 @@ function taskDiv() {
   taskContainer.classList.add("task-container");
 
   //const currentProjectDiv = document.querySelector(".current-project-div")
-
-
   content.appendChild(taskContainer);
 }
+
+function noTasksDiv() {
+  const taskContainer = document.querySelector(".task-container");
+
+  const emptyTaskDiv = document.createElement("div");
+
+  emptyTaskDiv.classList.add("empty-task-div");
+  emptyTaskDiv.textContent = "No tasks for slected project were found";
+  taskContainer.appendChild(emptyTaskDiv);
+}
+
+// USE true / false if emptyTaskDivExists
+
 // NEXT STEPS
 // Tasks on right side should always be displayed for current project
 // -> display all tasks for specific project
