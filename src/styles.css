@@ -279,6 +279,10 @@ html {
   height: calc(100vh - 80px - 56px);
 
   padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 /* Empty task div */
@@ -287,4 +291,75 @@ html {
   margin-top: 40px;
   color: #333;
   font-size: 14px;
+}
+
+/* Add task modal */
+/* Textarea */
+.modal-content textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  resize: none;
+}
+
+/* Select dropdown */
+.modal-content select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background: white;
+  color: black;
+  cursor: pointer;
+}
+
+
+.task {
+  background-color: yellowgreen;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+
+  position: relative;
+}
+
+.priority-div {
+  position: absolute;
+  height: 50px;
+  width: 6px;
+  background-color: blue;
+  top: 0;
+  left: 0;
+}
+
+/* Task UI */
+
+.task-icon {
+
+}
+
+.current-project-div-icons {
+  margin-left: auto;
+  margin-right: 20px;
+
+  display: flex;
+  gap: 10px;
+}
+
+
+.task-icon {
+  height: 25px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.task-icon:active {
+  transform: scale(0.9); /* Slightly shrink the icon */
+  opacity: 0.8; /* Reduce opacity slightly */
 }

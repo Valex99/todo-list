@@ -17,7 +17,7 @@ let selected = null;
 const content = document.getElementById("content");
 const html = document.querySelector("html");
 
-let zeroTasksDivExists = false;
+let noTasksDivMessageExists = false;
 
 export function createNav() {
   const nav = document.querySelector("nav");
@@ -47,7 +47,7 @@ export function createNav() {
 
   // FUNCTION CALLS:
   // First call so taskdiv gets created - to append later
-  taskDiv();
+  taskDivContainer();
   // When nav is created add default project to projects array
   initializeDefaultProject();
   // Update selected ->
@@ -263,8 +263,9 @@ function renderNewProject() {
   taskCounter.classList.add("task-counter");
 
   // UPDATE THIS WITH FUNCTION CALL LATER
-  if (taskAmount() === 0) {
-    noTasksDiv();
+  if (taskAmount() === 0 && noTasksDivMessageExists === false) {
+    noTasksDivMessage();
+    noTasksDivMessageExists = true;
     console.log("ZERO TASKS");
   } else {
     console.log("task amount is bigger than 0");
@@ -403,9 +404,12 @@ function createAddTask() {
   html.appendChild(addTaskDiv);
 
   // Add event listener
+  addTaskDiv.addEventListener("click", () => {
+    displayTaskModal();
+  });
 }
 
-function taskDiv() {
+function taskDivContainer() {
   const taskContainer = document.createElement("div");
   taskContainer.classList.add("task-container");
 
@@ -413,14 +417,14 @@ function taskDiv() {
   content.appendChild(taskContainer);
 }
 
-function noTasksDiv() {
+function noTasksDivMessage() {
   const taskContainer = document.querySelector(".task-container");
 
   const emptyTaskDiv = document.createElement("div");
-
   emptyTaskDiv.classList.add("empty-task-div");
   emptyTaskDiv.textContent = "No tasks for slected project were found";
   taskContainer.appendChild(emptyTaskDiv);
+  // Function could update noTaskDivMessage
 }
 
 // USE true / false if emptyTaskDivExists
@@ -429,12 +433,137 @@ function noTasksDiv() {
 // Tasks on right side should always be displayed for current project
 // -> display all tasks for specific project
 // If there is no task, display on the right (no tasks for this project)
-// Add plus icon -> bottom right corner (to add tasks to project) - position abs rel
-// click on add task button should open modal with
-//    1. descriprion (textarea or input)
-//    2. priority (dropdown menu)
-//
 
 // TODO
 // Add functon that checks for the same names (no duplication)
 // figure out why your git host is not updating
+
+function displayTaskModal() {
+  // Modal overlay
+  const modalOverlay = document.createElement("div");
+  modalOverlay.classList.add("modal-overlay");
+
+  // Modal content
+  const modalContent = document.createElement("div");
+  modalContent.classList.add("modal-content");
+
+  // Title
+  const modalTitle = document.createElement("h2");
+  modalTitle.textContent = "Add New Task";
+
+  // Close button
+  const closeButton = document.createElement("button");
+  closeButton.classList.add("modal-close");
+  closeButton.textContent = "✕";
+
+  // Description textarea
+  const descriptionContainer = document.createElement("div");
+  const descriptionLabel = document.createElement("label");
+  descriptionLabel.textContent = "Description*";
+  const descriptionTextarea = document.createElement("textarea");
+  descriptionTextarea.placeholder = "Enter task description";
+  descriptionTextarea.rows = 4;
+
+  descriptionContainer.appendChild(descriptionLabel);
+  descriptionContainer.appendChild(descriptionTextarea);
+
+  // Priority dropdown
+  const priorityContainer = document.createElement("div");
+  const priorityLabel = document.createElement("label");
+  priorityLabel.textContent = "Priority*";
+  const prioritySelect = document.createElement("select");
+  const priorities = ["First Priority", "Second Priority", "Third Priority"];
+  priorities.forEach((priority) => {
+    const option = document.createElement("option");
+    option.value = priority.toLowerCase().replace(" ", "-");
+    option.textContent = priority;
+    prioritySelect.appendChild(option);
+  });
+
+  priorityContainer.appendChild(priorityLabel);
+  priorityContainer.appendChild(prioritySelect);
+
+  // Submit button
+  const submitButton = document.createElement("button");
+  submitButton.classList.add("modal-submit");
+  submitButton.textContent = "SUBMIT";
+
+  // Append children to modal
+  modalContent.appendChild(modalTitle);
+  modalContent.appendChild(closeButton);
+  modalContent.appendChild(descriptionContainer);
+  modalContent.appendChild(priorityContainer);
+  modalContent.appendChild(submitButton);
+  modalOverlay.appendChild(modalContent);
+
+  // Add the modal to the body
+  document.body.appendChild(modalOverlay);
+
+  // Close modal logic
+  closeButton.addEventListener("click", () => {
+    document.body.removeChild(modalOverlay);
+  });
+  // Close modal when clicking on the overlay (background)
+  modalOverlay.addEventListener("click", (e) => {
+    if (e.target === modalOverlay) {
+      document.body.removeChild(modalOverlay);
+    }
+  });
+
+  // Handle submit button
+  submitButton.addEventListener("click", () => {
+    removeNoTaskDivMessage();
+    createAndAppendTasks();
+    //   const description = descriptionTextarea.value.trim();
+    //   const priority = prioritySelect.value;
+
+    //   if (description) {
+    //     console.log("New Task:", { description, priority });
+    document.body.removeChild(modalOverlay);
+    //   } else {
+    //     alert("Description is required!");
+    //   }
+  });
+}
+
+function createAndAppendTasks() {
+  const taskContainer = document.querySelector(".task-container");
+
+  const task = document.createElement("div");
+  task.classList.add("task");
+  // This should be a description of the task
+  task.textContent = "WORKS";
+
+  // Color should be picked with IF (add class list to it)
+  const priorityDiv = document.createElement("div");
+  priorityDiv.classList.add("priority-div");
+
+  // ADD AND APPEND ICONS
+  const iconsDiv = document.createElement("div");
+  iconsDiv.classList.add("current-project-div-icons")
+
+  const editIcon = document.createElement("img");
+  editIcon.classList.add("task-icon");
+  editIcon.src = pencilIcon;
+  editIcon.alt = "Edit Icon";
+
+  const deleteIcon = document.createElement("img");
+  editIcon.classList.add("task-icon");
+  deleteIcon.src = binIcon;
+  deleteIcon.alt = "Delete Icon";
+
+  iconsDiv.appendChild(editIcon);
+  iconsDiv.appendChild(deleteIcon);
+
+  task.appendChild(priorityDiv);
+  task.appendChild(iconsDiv);
+
+  taskContainer.appendChild(task);
+}
+
+function removeNoTaskDivMessage() {
+  const taskContainer = document.querySelector(".task-container");
+  const emptyTaskDiv = document.querySelector(".empty-task-div");
+
+  taskContainer.removeChild(emptyTaskDiv);
+}
