@@ -645,7 +645,5 @@ function removeNoTaskDivMessage() {
 
 // Fix task counter beside project
 
-// clICK ON SUBMIT BUTTON OF NEW TASK SHOULD -> UPDATE TASK COUNT IN SIDEBAR
-
-// MUST FIX - WHEN YOU ADD NEW PROJECT VIA MODAL -> AFTER CLEARING INNER HTML MAKE SURE TO
-// APPEND NO TASK MESSAGE
+// Click on the task should add it to completed - line over text, less opacity
+// When projct is selecteed - task counmter should also turn black
