@@ -632,14 +632,8 @@ function removeNoTaskDivMessage() {
   noTasksDivMessageExists = false;
 }
 
-// Click on DIFFERENT PROJECT or DELETING THE PROJECT should clear the task-container div
 
-// 287 - 293 END
-// Update task counter for each project, that should happen each time user clicks
-// sUBMIT BUTTON ON ADD TASK MODAL, A FUNCTION SHOULD RUN FOR THAT PROJECT
-// CREATEAND APPEND TASKS FUNCTION should only be called by logic.js for each project
 
-// FIX
 // When you add project and next one gets auto selected -> it should also clean inner html
 // and append projects for specific project
 
@@ -647,3 +641,9 @@ function removeNoTaskDivMessage() {
 
 // Click on the task should add it to completed - line over text, less opacity
 // When projct is selecteed - task counmter should also turn black
+
+
+// IF YOU DELETE THE PROJECT AND PRESS ADD TASK BUTTON ON THE NEXT AUTO SELECTED PROJECT
+// IT WILL NOT WORK (Remove child error)
+
+// Next - for tasks do the same as with projects.
