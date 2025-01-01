@@ -1,8 +1,11 @@
+import { createAndAppendTasks } from "./UI";
+
 const projects = [];
 
 //const defaultProject = "Default Project";
 
 function Project(name) {
+  console.log(projects);
   return { name, tasks: [] }; // Each project has tasks
 }
 
@@ -76,6 +79,18 @@ function addTaskToSelectedProject(
   console.log(projects);
 }
 
+function displayAllTasksForSelectedProject(selectedProject) {
+  // 1 -> Find selected project - stored in currentProject const
+  const currentProject = projects.find(
+    (project) => project.name === selectedProject
+  );
+  // 2 -> For each task of that selected project call createAndAppendTasks
+  currentProject.tasks.forEach((task) => {
+    // 3 -> Pass in as an argument (task name and task priority)
+    createAndAppendTasks(task.name, task.priority);
+  });
+}
+
 export {
   addProject,
   getAllProjects,
@@ -86,6 +101,7 @@ export {
   projectCout,
   changeName,
   addTaskToSelectedProject,
+  displayAllTasksForSelectedProject,
 };
 
 // Figure out how can you import all of those three things to UI module.

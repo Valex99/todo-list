@@ -12,6 +12,7 @@ import {
   projectCout,
   changeName,
   addTaskToSelectedProject,
+  displayAllTasksForSelectedProject,
 } from "./logic.js";
 
 let selected = null;
@@ -267,7 +268,7 @@ function renderNewProject() {
   // UPDATE THIS WITH FUNCTION CALL LATER
   if (taskAmount() === 0 && noTasksDivMessageExists === false) {
     noTasksDivMessage();
-    noTasksDivMessageExists = true;
+    //noTasksDivMessageExists = true;
     console.log("ZERO TASKS");
   } else {
     console.log("task amount is bigger than 0");
@@ -281,18 +282,29 @@ function renderNewProject() {
 
   // Add event listener to each project div
   projectDiv.addEventListener("click", () => {
-    // Clear any selected class first
-    removeSelectedClass();
-
+    removeSelectedClass(); // Clear any selected class first
+    
     // Clear task-container as well (bin icon should do the same)
     const taskContainer = document.querySelector(".task-container");
     taskContainer.innerHTML = "";
+    //alert(selected);
+    
+    // TASK AMOUNT SHOULD TAKE IN AS AN ARGUMENT SELECTED PROJECT
+    
+    if (taskAmount() === 0 && noTasksDivMessageExists === false) {
+      noTasksDivMessage();
+    } else {
+      displayAllTasksForSelectedProject(selected);
+    }
     // This works
     // Now call function that takes in as an argument a selected project
+    
+    
+    
     // Finds it in projects array (by name)
     // And for each task of that project calls renderTask function
-
     const currentProjectDiv = document.querySelector(".current-project-div");
+    
 
     projectDiv.classList.add("selected");
     selected = projectName.textContent;
@@ -434,6 +446,8 @@ function noTasksDivMessage() {
   emptyTaskDiv.classList.add("empty-task-div");
   emptyTaskDiv.textContent = "No tasks for slected project were found";
   taskContainer.appendChild(emptyTaskDiv);
+
+  noTasksDivMessageExists = true;
   // Function could update noTaskDivMessage
 }
 
@@ -531,8 +545,9 @@ function displayTaskModal() {
 
     // add code here to push description and priority into array
     addTaskToSelectedProject(selected, description, priority);
-    console.log("Priority:", priority);
-    createAndAppendTasks(description, priority);
+    //console.log("Priority:", priority);
+
+    //createAndAppendTasks(description, priority);
 
     if (description) {
       console.log("New Task:", { description, priority });
@@ -545,7 +560,7 @@ function displayTaskModal() {
   });
 }
 
-function createAndAppendTasks(description, priority) {
+export function createAndAppendTasks(description, priority) {
   const taskContainer = document.querySelector(".task-container");
 
   const task = document.createElement("div");
@@ -603,3 +618,10 @@ function removeNoTaskDivMessage() {
 // Update task counter for each project, that should happen each time user clicks
 // sUBMIT BUTTON ON ADD TASK MODAL, A FUNCTION SHOULD RUN FOR THAT PROJECT
 // CREATEAND APPEND TASKS FUNCTION should only be called by logic.js for each project
+
+
+// FIX
+// When you add project and next one gets auto selected -> it should also clean inner html
+// and append projects for specific project
+
+// Fix task counter beside project
