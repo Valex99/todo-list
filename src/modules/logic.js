@@ -42,9 +42,10 @@ function getLastAddedProject() {
   return projects.length > 0 ? projects[projects.length - 1] : null;
 }
 
-function taskAmount() {
-  const lastAddedProject = getLastAddedProject();
-  const taskAmount = lastAddedProject.tasks.length;
+function taskAmount(selectedProject) {
+  //const lastAddedProject = getLastAddedProject();
+  const clickedProject = projects.find((project) => project.name === selectedProject)
+  const taskAmount = clickedProject.tasks.length;
   // It has to return something - otherwise it cant be used
   return taskAmount;
 }

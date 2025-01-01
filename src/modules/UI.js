@@ -65,15 +65,10 @@ function createProjectHeader() {
   const currentProjectDiv = document.createElement("div");
   currentProjectDiv.classList.add("current-project-div");
 
-  //   currentProjectDiv.appendChild(currentProjectDivIcons);
   content.appendChild(currentProjectDiv);
 
-  // First this needs to be called
   updateProjectHeader();
-  // Once header is created, append sidebar to it
-  projectSidebar();
-
-  //
+  projectSidebar(); // Once header is created, append sidebar to it
   createAddTask();
 }
 
@@ -81,7 +76,6 @@ function createProjectHeader() {
 function updateProjectHeader() {
   const projectHeader = document.querySelector(".current-project-div");
   const lastAddedProject = getLastAddedProject().name;
-  //console.log(lastAddedProject);
   projectHeader.textContent = lastAddedProject;
 
   appendHeaderIcons();
@@ -127,7 +121,18 @@ function appendHeaderIcons() {
 
       // set selected to last project in the projects array
       selected = getLastAddedProject().name;
-      //console.log("Selected after removing:", selected);
+
+      const taskContainer = document.querySelector(".task-container");
+      taskContainer.innerHTML = "";
+      console.log(
+        "CHECKING VARIABLE AFTER CLEARING HTML",
+        noTasksDivMessageExists
+      );
+      if (taskAmount(selected) === 0 && noTasksDivMessageExists === false) {
+        noTasksDivMessage();
+      } else {
+        displayAllTasksForSelectedProject(selected);
+      }
 
       // Select last project in the array -> Highlight it and set header text content
       updateProjectHeader();
@@ -224,17 +229,23 @@ function displayProjectModal() {
     }
   });
 
-  // Handle submit button (add your logic here)
   submitButton.addEventListener("click", () => {
     const projectName = inputField.value.trim();
     if (projectName) {
-      console.log("New project name:", projectName);
-      // Add new project to projects array
-      addProject(projectName);
-      // Then display new project
-      renderNewProject();
+      // This is new
+      const taskContainer = document.querySelector(".task-container");
+      taskContainer.innerHTML = "";
+      noTasksDivMessage();
+
+      //console.log("New project name:", projectName);
       selected = projectName;
-      document.body.removeChild(modalOverlay);
+      addProject(projectName); // Add new project to projects array
+      renderNewProject(); // Then display new project
+
+      // No need for this since when adding new project it will have no tasks
+      //displayAllTasksForSelectedProject(selected)
+
+      document.body.removeChild(modalOverlay); // Hide modal
     } else {
       alert("Project name is required!");
     }
@@ -251,7 +262,6 @@ function renderNewProject() {
   const projectName = document.createElement("p");
   const lastAddedProject = getLastAddedProject().name;
 
-  // Call function to remove all selected classes BEFORE adding IT
   removeSelectedClass();
 
   // Must call it!
@@ -266,7 +276,7 @@ function renderNewProject() {
   taskCounter.classList.add("task-counter");
 
   // UPDATE THIS WITH FUNCTION CALL LATER
-  if (taskAmount() === 0 && noTasksDivMessageExists === false) {
+  if (taskAmount(selected) === 0 && noTasksDivMessageExists === false) {
     noTasksDivMessage();
     //noTasksDivMessageExists = true;
     console.log("ZERO TASKS");
@@ -274,7 +284,7 @@ function renderNewProject() {
     console.log("task amount is bigger than 0");
   }
 
-  taskCounter.textContent = taskAmount();
+  taskCounter.textContent = taskAmount(selected);
 
   projectDiv.appendChild(projectName);
   projectDiv.appendChild(taskCounter);
@@ -283,37 +293,38 @@ function renderNewProject() {
   // Add event listener to each project div
   projectDiv.addEventListener("click", () => {
     removeSelectedClass(); // Clear any selected class first
-    
+
+    const currentProjectDiv = document.querySelector(".current-project-div");
+
+    projectDiv.classList.add("selected");
+    selected = projectName.textContent;
+    console.log("SELECTED: ", selected);
+    currentProjectDiv.textContent = selected;
+    appendHeaderIcons();
+
     // Clear task-container as well (bin icon should do the same)
     const taskContainer = document.querySelector(".task-container");
     taskContainer.innerHTML = "";
+
+    // Experiment
+    noTasksDivMessageExists = false;
+
     //alert(selected);
-    
+
     // TASK AMOUNT SHOULD TAKE IN AS AN ARGUMENT SELECTED PROJECT
-    
-    if (taskAmount() === 0 && noTasksDivMessageExists === false) {
+    //console.log(taskAmount(selected), noTasksDivMessageExists);
+    if (taskAmount(selected) === 0 && noTasksDivMessageExists === false) {
       noTasksDivMessage();
     } else {
       displayAllTasksForSelectedProject(selected);
     }
     // This works
     // Now call function that takes in as an argument a selected project
-    
-    
-    
+
     // Finds it in projects array (by name)
     // And for each task of that project calls renderTask function
-    const currentProjectDiv = document.querySelector(".current-project-div");
-    
 
-    projectDiv.classList.add("selected");
-    selected = projectName.textContent;
-    //console.log(selected);
-    currentProjectDiv.textContent = selected;
-
-    appendHeaderIcons();
-
-    taskAmount();
+    taskAmount(selected);
   });
 }
 
@@ -540,19 +551,28 @@ function displayTaskModal() {
       removeNoTaskDivMessage();
     }
 
+    const taskContainer = document.querySelector(".task-container");
+    taskContainer.innerHTML = "";
+
     const description = descriptionTextarea.value.trim();
     const priority = prioritySelect.value;
 
-    // add code here to push description and priority into array
     addTaskToSelectedProject(selected, description, priority);
-    //console.log("Priority:", priority);
+
+    // add code here to push description and priority into array
+    const selectedProject = document.querySelector(".selected");
+    const selectedTaskCounter = selectedProject.querySelector(".task-counter");
+    selectedTaskCounter.textContent = taskAmount(selected);
+
+    displayAllTasksForSelectedProject(selected);
 
     //createAndAppendTasks(description, priority);
-
     if (description) {
       console.log("New Task:", { description, priority });
       document.body.removeChild(modalOverlay);
-      // This should be called later
+
+      //displayAllTasksForSelectedProject(selected);
+
       //createAndAppendTasks();
     } else {
       alert("Description is required!");
@@ -619,9 +639,13 @@ function removeNoTaskDivMessage() {
 // sUBMIT BUTTON ON ADD TASK MODAL, A FUNCTION SHOULD RUN FOR THAT PROJECT
 // CREATEAND APPEND TASKS FUNCTION should only be called by logic.js for each project
 
-
 // FIX
 // When you add project and next one gets auto selected -> it should also clean inner html
 // and append projects for specific project
 
 // Fix task counter beside project
+
+// clICK ON SUBMIT BUTTON OF NEW TASK SHOULD -> UPDATE TASK COUNT IN SIDEBAR
+
+// MUST FIX - WHEN YOU ADD NEW PROJECT VIA MODAL -> AFTER CLEARING INNER HTML MAKE SURE TO
+// APPEND NO TASK MESSAGE
