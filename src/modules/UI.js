@@ -562,8 +562,15 @@ export function createAndAppendTasks(description, priority) {
   taskContainer.appendChild(task);
 
   // ADD EVENT LISTENERS FOR PENCIL AND BIN ICON
-  editIcon.addEventListener("click", () => {});
+  editIcon.addEventListener("click", function (e) {
+    // taskElement now holds the reference to last selected taskss div
+    const taskElement = e.target.closest(".task");
+    const taskName = taskElement.textContent;
+    console.log("selected task is: ", taskName);
+    editTaskModal(taskName, taskElement);
+  });
 
+  // WORKS
   deleteIcon.addEventListener("click", function (e) {
     const taskElement = e.target.closest(".task");
     const taskName = taskElement.textContent;
@@ -590,22 +597,111 @@ function removeNoTaskDivMessage() {
   taskContainer.removeChild(emptyTaskDiv);
   noTasksDivMessageExists = false;
 }
-// If user clicks on delete project delete all tasks from array as well
+
+///////////////////////////////////
+
+function editTaskModal(taskName, taskElement) {
+  const modalOverlay = document.createElement("div");
+  modalOverlay.classList.add("modal-overlay");
+
+  const modalContent = document.createElement("div");
+  modalContent.classList.add("modal-content");
+
+  const modalTitle = document.createElement("h2");
+  modalTitle.textContent = "Edit task";
+
+  const closeButton = document.createElement("button");
+  closeButton.classList.add("modal-close");
+  closeButton.textContent = "✕";
+
+  const descriptionContainer = document.createElement("div");
+  const descriptionLabel = document.createElement("label");
+  descriptionLabel.textContent = "Description*";
+  const descriptionTextarea = document.createElement("textarea");
+  descriptionTextarea.placeholder = taskName;
+  descriptionTextarea.rows = 4;
+
+  descriptionContainer.appendChild(descriptionLabel);
+  descriptionContainer.appendChild(descriptionTextarea);
+
+  const priorityContainer = document.createElement("div");
+  const priorityLabel = document.createElement("label");
+  priorityLabel.textContent = "Priority*";
+  const prioritySelect = document.createElement("select");
+  const priorities = ["First Priority", "Second Priority", "Third Priority"];
+  priorities.forEach((priority) => {
+    const option = document.createElement("option");
+    option.value = priority.toLowerCase().replace(" ", "-");
+    option.textContent = priority;
+    prioritySelect.appendChild(option);
+  });
+
+  priorityContainer.appendChild(priorityLabel);
+  priorityContainer.appendChild(prioritySelect);
+
+  const submitButton = document.createElement("button");
+  submitButton.classList.add("modal-submit");
+
+  submitButton.textContent = "SUBMIT";
+
+  modalContent.appendChild(modalTitle);
+  modalContent.appendChild(closeButton);
+  modalContent.appendChild(descriptionContainer);
+  modalContent.appendChild(priorityContainer);
+  modalContent.appendChild(submitButton);
+  modalOverlay.appendChild(modalContent);
+
+  document.body.appendChild(modalOverlay);
+
+  closeButton.addEventListener("click", () => {
+    document.body.removeChild(modalOverlay);
+  });
+  modalOverlay.addEventListener("click", (e) => {
+    if (e.target === modalOverlay) {
+      document.body.removeChild(modalOverlay);
+    }
+  });
+
+  submitButton.addEventListener("click", () => {
+    const description = descriptionTextarea.value.trim();
+    const priority = prioritySelect.value;
+
+    if (description.length === 0) {
+      alert("Description is required!");
+      return 0;
+    }
+
+    taskElement.textContent = description;
+
+    // Color should be picked with IF (add class list to it)
+    const priorityDiv = document.createElement("div");
+    priorityDiv.classList.add("priority-div");
+
+    if (priority == "first-priority") {
+      priorityDiv.classList.add("blue");
+    } else if (priority == "second-priority") {
+      priorityDiv.classList.add("orange");
+    } else {
+      priorityDiv.classList.add("lightblue");
+    }
+
+    taskElement.appendChild(priorityDiv);
+
+    document.body.removeChild(modalOverlay);
+  });
+}
 
 // Add functon that checks for the same names (no duplication) with projects
 
 // Click on the task should add it to completed - line over text, less opacity
 // When projct is selecteed - task counmter should also turn black
 
-// Next - for tasks do the same as with projects.
-
 // FIGURE IT OUT WITH GIT...
 
 // Edit sub,it button with css -> default shoud be different and on hover and click as well
 
-/// when you add task to a specific project and then click on change name modal it displays that task again.
+// task counter background should go from gray to black
 
-// HOW TO APPROACH TASK HANDLING?
-// 1) RenderNewProjects function does that for projects!
-// 2) Ecah time a task is created add selected class to it
-// 3)
+// SORT ITEMS BY PRIORITY IN arraay
+
+// Create local storage!
