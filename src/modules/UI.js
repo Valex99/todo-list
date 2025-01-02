@@ -169,8 +169,7 @@ function projectSidebar() {
     displayProjectModal();
   });
 
-  // Render ALL projects
-  renderNewProject();
+  renderNewProject(); // Render ALL projects
 }
 
 // Function to display the project modal
@@ -306,23 +305,13 @@ function renderNewProject() {
     const taskContainer = document.querySelector(".task-container");
     taskContainer.innerHTML = "";
 
-    // Experiment
     noTasksDivMessageExists = false;
 
-    //alert(selected);
-
-    // TASK AMOUNT SHOULD TAKE IN AS AN ARGUMENT SELECTED PROJECT
-    //console.log(taskAmount(selected), noTasksDivMessageExists);
     if (taskAmount(selected) === 0 && noTasksDivMessageExists === false) {
       noTasksDivMessage();
     } else {
       displayAllTasksForSelectedProject(selected);
     }
-    // This works
-    // Now call function that takes in as an argument a selected project
-
-    // Finds it in projects array (by name)
-    // And for each task of that project calls renderTask function
 
     taskAmount(selected);
   });
@@ -398,23 +387,35 @@ function editProjectName() {
   // Handle submit button (add your logic here)
   submitButton.addEventListener("click", () => {
     const newName = inputField.value.trim();
-    console.log(newName);
+    //console.log(newName);
     if (newName && newName !== selected) {
-      console.log("Edited project name:", newName);
+      //console.log("Edited project name:", newName);
       // Call function that editsProjectName
       changeName(selected, newName);
+      selected = newName;
 
       // Change name updated array -> now update UI
       const projectHeader = document.querySelector(".current-project-div");
       const selectedProject = document.querySelector(".selected");
 
-      // Update selected
-      selected = newName;
-
       selectedProject.querySelector("p").textContent = selected;
       projectHeader.textContent = selected;
-
+      
       appendHeaderIcons();
+      // WORKS
+      
+
+      const taskContainer = document.querySelector(".task-container")
+      taskContainer.textContent = "";
+      noTasksDivMessageExists = false;
+
+
+      if (taskAmount(selected) === 0 && noTasksDivMessageExists === false) {
+        noTasksDivMessage();
+      } else {
+        displayAllTasksForSelectedProject(selected);
+      }
+
       // Update project header
       document.body.removeChild(modalOverlay);
 
@@ -632,18 +633,18 @@ function removeNoTaskDivMessage() {
   noTasksDivMessageExists = false;
 }
 
-
-
 // When you add project and next one gets auto selected -> it should also clean inner html
 // and append projects for specific project
 
-// Fix task counter beside project
-
 // Click on the task should add it to completed - line over text, less opacity
 // When projct is selecteed - task counmter should also turn black
-
 
 // IF YOU DELETE THE PROJECT AND PRESS ADD TASK BUTTON ON THE NEXT AUTO SELECTED PROJECT
 // IT WILL NOT WORK (Remove child error)
 
 // Next - for tasks do the same as with projects.
+
+// HANDLE CHANGING PROJECT NAME AS WELL!
+// Handle pencil event listener
+
+// FIGURE IT OUT WITH GIT...

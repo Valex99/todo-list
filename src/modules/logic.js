@@ -56,7 +56,7 @@ function projectCout() {
 
 function changeName(oldName, newName) {
   // findIndex method expects a callback function
-  const index = projects.findIndex((project) => project === oldName);
+  const index = projects.findIndex((project) => project.name === oldName);
   // Create a new object with the updated name but keep the other properties the same
 
   const updatedProject = { ...projects[index], name: newName };
