@@ -14,6 +14,7 @@ import {
   addTaskToSelectedProject,
   displayAllTasksForSelectedProject,
   removeTaskFromArray,
+  changeTaskName,
 } from "./logic.js";
 
 let selected = null;
@@ -698,6 +699,8 @@ function editTaskModal(taskName, taskElement) {
     }
 
     appendTaskIcons();
+    changeTaskName(selected, taskName, description, priority); // Add priority.
+
     taskElement.appendChild(priorityDiv);
 
     document.body.removeChild(modalOverlay);
@@ -764,6 +767,8 @@ function appendTaskIcons() {
   });
 }
 
+// 1) SHOULD ALL BE WORKING -> NOW FIX ADDING TASK TO ARRAY OR CHANGING TASK NAME IN ARRAY!
+
 // Add functon that checks for the same names (no duplication) with projects
 
 // Click on the task should add it to completed - line over text, less opacity
@@ -771,10 +776,8 @@ function appendTaskIcons() {
 
 // FIGURE IT OUT WITH GIT...
 
-// Edit sub,it button with css -> default shoud be different and on hover and click as well
-
 // SORT ITEMS BY PRIORITY IN araay
 
 // Create local storage!
 
-// SHOULD ALL BE WORKING -> NOW FIX ADDING TASK TO ARRAY OR CHANGING TASK NAME IN ARRAY!
+// Edit sub,it button with css -> default shoud be different and on hover and click as well

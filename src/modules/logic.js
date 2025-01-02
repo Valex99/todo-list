@@ -104,6 +104,20 @@ function findProjectName(selectedProject) {
   return currentProject;
 }
 
+function changeTaskName(selectedProject, oldName, newName, priority) {
+  // Find Selected Project
+  const currentProject = findProjectName(selectedProject);
+  // Find INDEX of the task with oldName
+  const taskIndex = currentProject.tasks.findIndex(
+    (task) => task.name === oldName
+  );
+
+  // Update the task name
+  currentProject.tasks[taskIndex].name = newName;
+  currentProject.tasks[taskIndex].priority = priority;
+  return projects;
+}
+
 // I could make a function for finding / querying project name since i use it often in here
 export {
   addProject,
@@ -117,6 +131,7 @@ export {
   addTaskToSelectedProject,
   displayAllTasksForSelectedProject,
   removeTaskFromArray,
+  changeTaskName,
 };
 
 // Figure out how can you import all of those three things to UI module.
