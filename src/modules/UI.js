@@ -537,6 +537,11 @@ export function createAndAppendTasks(description, priority) {
     priorityDiv.classList.add("lightblue");
   }
 
+  task.appendChild(priorityDiv);
+  taskContainer.appendChild(task);
+  appendTaskIcons();
+  /*
+
   // ADD AND APPEND ICONS
   const iconsDiv = document.createElement("div");
   iconsDiv.classList.add("icons-div");
@@ -588,6 +593,8 @@ export function createAndAppendTasks(description, priority) {
       noTasksDivMessage();
     }
   });
+
+*/
 }
 
 function removeNoTaskDivMessage() {
@@ -685,9 +692,70 @@ function editTaskModal(taskName, taskElement) {
       priorityDiv.classList.add("lightblue");
     }
 
+    appendTaskIcons();
     taskElement.appendChild(priorityDiv);
 
     document.body.removeChild(modalOverlay);
+
+    // WHEN YOU CHANGE TASK NAME -> Push that name into array as well
+  });
+}
+
+function appendTaskIcons() {
+  const task = document.querySelector(".task");
+
+  const taskContainer = document.querySelector(".task-container");
+
+  const iconsDiv = document.createElement("div");
+  iconsDiv.classList.add("icons-div");
+
+  const editIcon = document.createElement("img");
+  editIcon.classList.add("task-icon");
+  editIcon.classList.add("edit-icon");
+  editIcon.src = pencilIcon;
+  editIcon.alt = "Edit Icon";
+
+  const deleteIcon = document.createElement("img");
+  deleteIcon.classList.add("task-icon");
+  deleteIcon.classList.add("delete-icon");
+  deleteIcon.src = binIcon;
+  deleteIcon.alt = "Delete Icon";
+
+  iconsDiv.appendChild(editIcon);
+  iconsDiv.appendChild(deleteIcon);
+
+  //task.appendChild(priorityDiv);
+
+  task.appendChild(iconsDiv);
+
+  taskContainer.appendChild(task);
+
+  // ADD EVENT LISTENERS FOR PENCIL AND BIN ICON
+  editIcon.addEventListener("click", function (e) {
+    // taskElement now holds the reference to last selected taskss div
+    const taskElement = e.target.closest(".task");
+    const taskName = taskElement.textContent;
+    console.log("selected task is: ", taskName);
+    editTaskModal(taskName, taskElement);
+  });
+
+  // WORKS
+  deleteIcon.addEventListener("click", function (e) {
+    const taskElement = e.target.closest(".task");
+    const taskName = taskElement.textContent;
+
+    taskContainer.removeChild(taskElement);
+
+    removeTaskFromArray(selected, taskName);
+
+    // Update task count for specific project
+    const selectedProject = document.querySelector(".selected");
+    const selectedTaskCounter = selectedProject.querySelector(".task-counter");
+    selectedTaskCounter.textContent = taskAmount(selected);
+
+    if (taskAmount(selected) === 0) {
+      noTasksDivMessage();
+    }
   });
 }
 
@@ -705,3 +773,5 @@ function editTaskModal(taskName, taskElement) {
 // SORT ITEMS BY PRIORITY IN arraay
 
 // Create local storage!
+
+// SHOULD ALL BE WORKING -> NOW FIX ADDING TASK TO ARRAY OR CHANGING TASK NAME IN ARRAY!
