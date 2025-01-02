@@ -13,6 +13,7 @@ import {
   changeName,
   addTaskToSelectedProject,
   displayAllTasksForSelectedProject,
+  removeTaskFromArray,
 } from "./logic.js";
 
 let selected = null;
@@ -497,6 +498,8 @@ function displayTaskModal() {
 
     addTaskToSelectedProject(selected, description, priority);
 
+    selectedTask = description;
+
     // add code here to push description and priority into array
     const selectedProject = document.querySelector(".selected");
     const selectedTaskCounter = selectedProject.querySelector(".task-counter");
@@ -504,14 +507,9 @@ function displayTaskModal() {
 
     displayAllTasksForSelectedProject(selected);
 
-    //createAndAppendTasks(description, priority);
     if (description) {
       console.log("New Task:", { description, priority });
       document.body.removeChild(modalOverlay);
-
-      //displayAllTasksForSelectedProject(selected);
-
-      //createAndAppendTasks();
     } else {
       alert("Description is required!");
     }
@@ -545,11 +543,13 @@ export function createAndAppendTasks(description, priority) {
 
   const editIcon = document.createElement("img");
   editIcon.classList.add("task-icon");
+  editIcon.classList.add("edit-icon");
   editIcon.src = pencilIcon;
   editIcon.alt = "Edit Icon";
 
   const deleteIcon = document.createElement("img");
   deleteIcon.classList.add("task-icon");
+  deleteIcon.classList.add("delete-icon");
   deleteIcon.src = binIcon;
   deleteIcon.alt = "Delete Icon";
 
@@ -564,7 +564,23 @@ export function createAndAppendTasks(description, priority) {
   // ADD EVENT LISTENERS FOR PENCIL AND BIN ICON
   editIcon.addEventListener("click", () => {});
 
-  deleteIcon.addEventListener("click", () => {});
+  deleteIcon.addEventListener("click", function (e) {
+    const taskElement = e.target.closest(".task");
+    const taskName = taskElement.textContent;
+
+    taskContainer.removeChild(taskElement);
+
+    removeTaskFromArray(selected, taskName);
+
+    // Update task count for specific project
+    const selectedProject = document.querySelector(".selected");
+    const selectedTaskCounter = selectedProject.querySelector(".task-counter");
+    selectedTaskCounter.textContent = taskAmount(selected);
+
+    if (taskAmount(selected) === 0) {
+      noTasksDivMessage();
+    }
+  });
 }
 
 function removeNoTaskDivMessage() {
@@ -574,6 +590,7 @@ function removeNoTaskDivMessage() {
   taskContainer.removeChild(emptyTaskDiv);
   noTasksDivMessageExists = false;
 }
+// If user clicks on delete project delete all tasks from array as well
 
 // Add functon that checks for the same names (no duplication) with projects
 
@@ -584,8 +601,11 @@ function removeNoTaskDivMessage() {
 
 // FIGURE IT OUT WITH GIT...
 
-// SUBMIT BUTTON ON ADD PROJECT SHOULD ONLY WORK IF THE DATA IS CORRECT
-
 // Edit sub,it button with css -> default shoud be different and on hover and click as well
 
 /// when you add task to a specific project and then click on change name modal it displays that task again.
+
+// HOW TO APPROACH TASK HANDLING?
+// 1) RenderNewProjects function does that for projects!
+// 2) Ecah time a task is created add selected class to it
+// 3)

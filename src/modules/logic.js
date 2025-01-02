@@ -44,7 +44,9 @@ function getLastAddedProject() {
 
 function taskAmount(selectedProject) {
   //const lastAddedProject = getLastAddedProject();
-  const clickedProject = projects.find((project) => project.name === selectedProject)
+  const clickedProject = projects.find(
+    (project) => project.name === selectedProject
+  );
   const taskAmount = clickedProject.tasks.length;
   // It has to return something - otherwise it cant be used
   return taskAmount;
@@ -92,6 +94,21 @@ function displayAllTasksForSelectedProject(selectedProject) {
   });
 }
 
+function removeTaskFromArray(selectedProject, taskName) {
+  const currentProject = projects.find(
+    (project) => project.name === selectedProject
+  );
+
+  const taskIndex = currentProject.tasks.findIndex(
+    (task) => task.name === taskName
+  );
+
+  currentProject.tasks.splice(taskIndex, 1);
+
+  console.log(projects);
+}
+
+// I could make a function for finding / querying project name since i use it often in here
 export {
   addProject,
   getAllProjects,
@@ -103,6 +120,7 @@ export {
   changeName,
   addTaskToSelectedProject,
   displayAllTasksForSelectedProject,
+  removeTaskFromArray,
 };
 
 // Figure out how can you import all of those three things to UI module.
