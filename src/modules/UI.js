@@ -127,10 +127,6 @@ function appendHeaderIcons() {
         noTasksDivMessageExists = false;
       }
 
-      console.log(
-        "CHECKING VARIABLE AFTER CLEARING HTML",
-        noTasksDivMessageExists
-      );
       if (taskAmount(selected) === 0 && noTasksDivMessageExists === false) {
         noTasksDivMessage();
       } else {
@@ -175,26 +171,21 @@ function projectSidebar() {
   renderNewProject(); // Render ALL projects
 }
 
-// Function to display the project modal
+// Function to display ADD PROJECT modal
 function displayProjectModal() {
-  // Modal overlay
   const modalOverlay = document.createElement("div");
   modalOverlay.classList.add("modal-overlay");
 
-  // Modal content
   const modalContent = document.createElement("div");
   modalContent.classList.add("modal-content");
 
-  // Title
   const modalTitle = document.createElement("h2");
   modalTitle.textContent = "Add New Project";
 
-  // Close button
   const closeButton = document.createElement("button");
   closeButton.classList.add("modal-close");
   closeButton.textContent = "✕";
 
-  // Input field
   const inputContainer = document.createElement("div");
   const inputLabel = document.createElement("label");
   inputLabel.textContent = "Name*";
@@ -205,26 +196,22 @@ function displayProjectModal() {
   inputContainer.appendChild(inputLabel);
   inputContainer.appendChild(inputField);
 
-  // Submit button
   const submitButton = document.createElement("button");
   submitButton.classList.add("modal-submit");
   submitButton.textContent = "SUBMIT";
 
-  // Append children to modal
   modalContent.appendChild(modalTitle);
   modalContent.appendChild(closeButton);
   modalContent.appendChild(inputContainer);
   modalContent.appendChild(submitButton);
   modalOverlay.appendChild(modalContent);
 
-  // Add the modal to the body
   document.body.appendChild(modalOverlay);
 
-  // Close modal logic
   closeButton.addEventListener("click", () => {
     document.body.removeChild(modalOverlay);
   });
-  // Close modal when clicking on the overlay (background)
+
   modalOverlay.addEventListener("click", (e) => {
     if (e.target === modalOverlay) {
       document.body.removeChild(modalOverlay);
@@ -234,18 +221,13 @@ function displayProjectModal() {
   submitButton.addEventListener("click", () => {
     const projectName = inputField.value.trim();
     if (projectName) {
-      // This is new
       const taskContainer = document.querySelector(".task-container");
       taskContainer.innerHTML = "";
       noTasksDivMessage();
 
-      //console.log("New project name:", projectName);
       selected = projectName;
       addProject(projectName); // Add new project to projects array
       renderNewProject(); // Then display new project
-
-      // No need for this since when adding new project it will have no tasks
-      //displayAllTasksForSelectedProject(selected)
 
       document.body.removeChild(modalOverlay); // Hide modal
     } else {
@@ -266,10 +248,8 @@ function renderNewProject() {
 
   removeSelectedClass();
 
-  // Must call it!
   updateProjectHeader();
 
-  //projectDiv.textContent = lastAddedProject;
   projectName.textContent = lastAddedProject;
   projectDiv.classList.add("project");
   projectDiv.classList.add("selected");
@@ -277,11 +257,8 @@ function renderNewProject() {
   const taskCounter = document.createElement("p");
   taskCounter.classList.add("task-counter");
 
-  // UPDATE THIS WITH FUNCTION CALL LATER
   if (taskAmount(selected) === 0 && noTasksDivMessageExists === false) {
     noTasksDivMessage();
-    //noTasksDivMessageExists = true;
-    console.log("ZERO TASKS");
   } else {
     console.log("task amount is bigger than 0");
   }
@@ -320,35 +297,29 @@ function renderNewProject() {
   });
 }
 
-// Select element with class .selected, if there is any remove it!
+// If there is any project with class selected - remove it
 function removeSelectedClass() {
   const selected = document.querySelector(".selected");
   if (selected) {
     selected.classList.remove("selected");
   }
 }
-// Hnadle clicks on edit icons
-// Add button to add tasks to projects
-// Maybe query dom for items as a global variables so you dont have to do it twice
+
+// Edit Project name modal
 function editProjectName() {
-  // Modal overlay
   const modalOverlay = document.createElement("div");
   modalOverlay.classList.add("modal-overlay");
 
-  // Modal content
   const modalContent = document.createElement("div");
   modalContent.classList.add("modal-content");
 
-  // Title
   const modalTitle = document.createElement("h2");
   modalTitle.textContent = "Edit Project Name";
 
-  // Close button
   const closeButton = document.createElement("button");
   closeButton.classList.add("modal-close");
   closeButton.textContent = "✕";
 
-  // Input field
   const inputContainer = document.createElement("div");
   const inputLabel = document.createElement("label");
   inputLabel.textContent = "Name";
@@ -359,45 +330,33 @@ function editProjectName() {
   inputContainer.appendChild(inputLabel);
   inputContainer.appendChild(inputField);
 
-  // Submit button
   const submitButton = document.createElement("button");
   submitButton.classList.add("modal-submit");
   submitButton.textContent = "SUBMIT";
 
-  // Append children to modal
   modalContent.appendChild(modalTitle);
   modalContent.appendChild(closeButton);
   modalContent.appendChild(inputContainer);
   modalContent.appendChild(submitButton);
   modalOverlay.appendChild(modalContent);
 
-  // Add the modal to the body
   document.body.appendChild(modalOverlay);
 
-  // Close modal logic
   closeButton.addEventListener("click", () => {
     document.body.removeChild(modalOverlay);
   });
-  // Close modal when clicking on the overlay (background)
   modalOverlay.addEventListener("click", (e) => {
     if (e.target === modalOverlay) {
       document.body.removeChild(modalOverlay);
     }
   });
 
-  // New project name shouldnt be the same as any existing project
-  // This function should also be called as new projects are created
-  // Handle submit button (add your logic here)
   submitButton.addEventListener("click", () => {
     const newName = inputField.value.trim();
-    //console.log(newName);
     if (newName && newName !== selected) {
-      //console.log("Edited project name:", newName);
-      // Call function that editsProjectName
       changeName(selected, newName);
       selected = newName;
 
-      // Change name updated array -> now update UI
       const projectHeader = document.querySelector(".current-project-div");
       const selectedProject = document.querySelector(".selected");
 
@@ -405,22 +364,19 @@ function editProjectName() {
       projectHeader.textContent = selected;
 
       appendHeaderIcons();
-      // WORKS
 
       const taskContainer = document.querySelector(".task-container");
-      //taskContainer.textContent = "";
-
-      // if(noTasksDivMessageExists === true) {
-      //   noTasksDivMessageExists = false;
-      // }
+      // This was added in case of any problem
+      taskContainer.innerHTML = "";
+      console.log(noTasksDivMessageExists);
+      noTasksDivMessageExists = false;
 
       if (taskAmount(selected) === 0 && noTasksDivMessageExists === false) {
         noTasksDivMessage();
       } else {
+        taskContainer.innerHTML = "";
         displayAllTasksForSelectedProject(selected);
       }
-
-      // Update project header
       document.body.removeChild(modalOverlay);
     } else {
       alert("Project name is required!");
@@ -447,8 +403,6 @@ function createAddTask() {
 function taskDivContainer() {
   const taskContainer = document.createElement("div");
   taskContainer.classList.add("task-container");
-
-  //const currentProjectDiv = document.querySelector(".current-project-div")
   content.appendChild(taskContainer);
 }
 
@@ -461,39 +415,22 @@ function noTasksDivMessage() {
   taskContainer.appendChild(emptyTaskDiv);
 
   noTasksDivMessageExists = true;
-  // Function could update noTaskDivMessage
 }
 
-// USE true / false if emptyTaskDivExists
-
-// NEXT STEPS
-// Tasks on right side should always be displayed for current project
-// -> display all tasks for specific project
-// If there is no task, display on the right (no tasks for this project)
-
-// TODO
-// Add functon that checks for the same names (no duplication)
-// figure out why your git host is not updating
-
 function displayTaskModal() {
-  // Modal overlay
   const modalOverlay = document.createElement("div");
   modalOverlay.classList.add("modal-overlay");
 
-  // Modal content
   const modalContent = document.createElement("div");
   modalContent.classList.add("modal-content");
 
-  // Title
   const modalTitle = document.createElement("h2");
   modalTitle.textContent = "Add New Task";
 
-  // Close button
   const closeButton = document.createElement("button");
   closeButton.classList.add("modal-close");
   closeButton.textContent = "✕";
 
-  // Description textarea
   const descriptionContainer = document.createElement("div");
   const descriptionLabel = document.createElement("label");
   descriptionLabel.textContent = "Description*";
@@ -504,7 +441,6 @@ function displayTaskModal() {
   descriptionContainer.appendChild(descriptionLabel);
   descriptionContainer.appendChild(descriptionTextarea);
 
-  // Priority dropdown
   const priorityContainer = document.createElement("div");
   const priorityLabel = document.createElement("label");
   priorityLabel.textContent = "Priority*";
@@ -520,12 +456,11 @@ function displayTaskModal() {
   priorityContainer.appendChild(priorityLabel);
   priorityContainer.appendChild(prioritySelect);
 
-  // Submit button
   const submitButton = document.createElement("button");
   submitButton.classList.add("modal-submit");
+
   submitButton.textContent = "SUBMIT";
 
-  // Append children to modal
   modalContent.appendChild(modalTitle);
   modalContent.appendChild(closeButton);
   modalContent.appendChild(descriptionContainer);
@@ -533,31 +468,32 @@ function displayTaskModal() {
   modalContent.appendChild(submitButton);
   modalOverlay.appendChild(modalContent);
 
-  // Add the modal to the body
   document.body.appendChild(modalOverlay);
 
-  // Close modal logic
   closeButton.addEventListener("click", () => {
     document.body.removeChild(modalOverlay);
   });
-  // Close modal when clicking on the overlay (background)
   modalOverlay.addEventListener("click", (e) => {
     if (e.target === modalOverlay) {
       document.body.removeChild(modalOverlay);
     }
   });
 
-  // Handle submit button
   submitButton.addEventListener("click", () => {
+    const description = descriptionTextarea.value.trim();
+    const priority = prioritySelect.value;
+
+    if (description.length === 0) {
+      alert("Description is required!");
+      return 0;
+    }
+
     if (noTasksDivMessageExists === true) {
       removeNoTaskDivMessage();
     }
 
     const taskContainer = document.querySelector(".task-container");
     taskContainer.innerHTML = "";
-
-    const description = descriptionTextarea.value.trim();
-    const priority = prioritySelect.value;
 
     addTaskToSelectedProject(selected, description, priority);
 
@@ -624,6 +560,11 @@ export function createAndAppendTasks(description, priority) {
   task.appendChild(iconsDiv);
 
   taskContainer.appendChild(task);
+
+  // ADD EVENT LISTENERS FOR PENCIL AND BIN ICON
+  editIcon.addEventListener("click", () => {});
+
+  deleteIcon.addEventListener("click", () => {});
 }
 
 function removeNoTaskDivMessage() {
@@ -634,15 +575,17 @@ function removeNoTaskDivMessage() {
   noTasksDivMessageExists = false;
 }
 
-// When you add project and next one gets auto selected -> it should also clean inner html
-// and append projects for specific project
+// Add functon that checks for the same names (no duplication) with projects
 
 // Click on the task should add it to completed - line over text, less opacity
 // When projct is selecteed - task counmter should also turn black
 
-// IF YOU DELETE THE PROJECT AND PRESS ADD TASK BUTTON ON THE NEXT AUTO SELECTED PROJECT
-// IT WILL NOT WORK (Remove child error)
-
 // Next - for tasks do the same as with projects.
 
 // FIGURE IT OUT WITH GIT...
+
+// SUBMIT BUTTON ON ADD PROJECT SHOULD ONLY WORK IF THE DATA IS CORRECT
+
+// Edit sub,it button with css -> default shoud be different and on hover and click as well
+
+/// when you add task to a specific project and then click on change name modal it displays that task again.
