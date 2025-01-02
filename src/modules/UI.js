@@ -110,20 +110,23 @@ function appendHeaderIcons() {
       alert("App requires a minimum of one project!");
     } else {
       removeProject(selected);
-      // Now project needs to be removed from the dom!
       const selectedProject = document.querySelector(".selected");
       const projectSidebarParent = document.querySelector(
         ".project-sidebar-parent-div"
       );
+      projectSidebarParent.removeChild(selectedProject); // Remove project
 
-      // Remove project
-      projectSidebarParent.removeChild(selectedProject);
-
-      // set selected to last project in the projects array
-      selected = getLastAddedProject().name;
+      selected = getLastAddedProject().name; // set selected to last project in the projects array
 
       const taskContainer = document.querySelector(".task-container");
       taskContainer.innerHTML = "";
+
+      // If message existed before removing the project and clearing innerHtml
+      // Make sure to set var to fales so it can be displayed afain if needed
+      if (noTasksDivMessageExists === true) {
+        noTasksDivMessageExists = false;
+      }
+
       console.log(
         "CHECKING VARIABLE AFTER CLEARING HTML",
         noTasksDivMessageExists
@@ -400,15 +403,16 @@ function editProjectName() {
 
       selectedProject.querySelector("p").textContent = selected;
       projectHeader.textContent = selected;
-      
+
       appendHeaderIcons();
       // WORKS
-      
 
-      const taskContainer = document.querySelector(".task-container")
-      taskContainer.textContent = "";
-      noTasksDivMessageExists = false;
+      const taskContainer = document.querySelector(".task-container");
+      //taskContainer.textContent = "";
 
+      // if(noTasksDivMessageExists === true) {
+      //   noTasksDivMessageExists = false;
+      // }
 
       if (taskAmount(selected) === 0 && noTasksDivMessageExists === false) {
         noTasksDivMessage();
@@ -418,8 +422,6 @@ function editProjectName() {
 
       // Update project header
       document.body.removeChild(modalOverlay);
-
-      // Update project sidebar
     } else {
       alert("Project name is required!");
     }
@@ -437,7 +439,6 @@ function createAddTask() {
   addTaskDiv.appendChild(plus);
   html.appendChild(addTaskDiv);
 
-  // Add event listener
   addTaskDiv.addEventListener("click", () => {
     displayTaskModal();
   });
@@ -643,8 +644,5 @@ function removeNoTaskDivMessage() {
 // IT WILL NOT WORK (Remove child error)
 
 // Next - for tasks do the same as with projects.
-
-// HANDLE CHANGING PROJECT NAME AS WELL!
-// Handle pencil event listener
 
 // FIGURE IT OUT WITH GIT...
