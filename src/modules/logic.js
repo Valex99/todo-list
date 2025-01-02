@@ -118,6 +118,14 @@ function changeTaskName(selectedProject, oldName, newName, priority) {
   return projects;
 }
 
+function checkForDuplication(projectName) {
+  if (findProjectName(projectName)) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 // I could make a function for finding / querying project name since i use it often in here
 export {
   addProject,
@@ -132,6 +140,7 @@ export {
   displayAllTasksForSelectedProject,
   removeTaskFromArray,
   changeTaskName,
+  checkForDuplication,
 };
 
 // Figure out how can you import all of those three things to UI module.

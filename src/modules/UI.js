@@ -15,6 +15,7 @@ import {
   displayAllTasksForSelectedProject,
   removeTaskFromArray,
   changeTaskName,
+  checkForDuplication,
 } from "./logic.js";
 
 let selected = null;
@@ -223,18 +224,22 @@ function displayProjectModal() {
 
   submitButton.addEventListener("click", () => {
     const projectName = inputField.value.trim();
-    if (projectName) {
-      const taskContainer = document.querySelector(".task-container");
-      taskContainer.innerHTML = "";
-      noTasksDivMessage();
+    if (checkForDuplication(projectName)) {
+      if (projectName) {
+        const taskContainer = document.querySelector(".task-container");
+        taskContainer.innerHTML = "";
+        noTasksDivMessage();
 
-      selected = projectName;
-      addProject(projectName); // Add new project to projects array
-      renderNewProject(); // Then display new project
+        selected = projectName;
+        addProject(projectName); // Add new project to projects array
+        renderNewProject(); // Then display new project
 
-      document.body.removeChild(modalOverlay); // Hide modal
+        document.body.removeChild(modalOverlay); // Hide modal
+      } else {
+        alert("Project name is required!");
+      }
     } else {
-      alert("Project name is required!");
+      alert("Project name already exists!");
     }
   });
 }
@@ -360,33 +365,38 @@ function editProjectName() {
 
   submitButton.addEventListener("click", () => {
     const newName = inputField.value.trim();
-    if (newName && newName !== selected) {
-      changeName(selected, newName);
-      selected = newName;
 
-      const projectHeader = document.querySelector(".current-project-div");
-      const selectedProject = document.querySelector(".selected");
+    if (checkForDuplication(newName)) {
+      if (newName && newName !== selected) {
+        changeName(selected, newName);
+        selected = newName;
 
-      selectedProject.querySelector("p").textContent = selected;
-      projectHeader.textContent = selected;
+        const projectHeader = document.querySelector(".current-project-div");
+        const selectedProject = document.querySelector(".selected");
 
-      appendHeaderIcons();
+        selectedProject.querySelector("p").textContent = selected;
+        projectHeader.textContent = selected;
 
-      const taskContainer = document.querySelector(".task-container");
-      // This was added in case of any problem
-      taskContainer.innerHTML = "";
-      console.log(noTasksDivMessageExists);
-      noTasksDivMessageExists = false;
+        appendHeaderIcons();
 
-      if (taskAmount(selected) === 0 && noTasksDivMessageExists === false) {
-        noTasksDivMessage();
-      } else {
+        const taskContainer = document.querySelector(".task-container");
+        // This was added in case of any problem
         taskContainer.innerHTML = "";
-        displayAllTasksForSelectedProject(selected);
+        console.log(noTasksDivMessageExists);
+        noTasksDivMessageExists = false;
+
+        if (taskAmount(selected) === 0 && noTasksDivMessageExists === false) {
+          noTasksDivMessage();
+        } else {
+          taskContainer.innerHTML = "";
+          displayAllTasksForSelectedProject(selected);
+        }
+        document.body.removeChild(modalOverlay);
+      } else {
+        alert("Project name is required!");
       }
-      document.body.removeChild(modalOverlay);
     } else {
-      alert("Project name is required!");
+      alert("Project name already exists!");
     }
   });
 }
@@ -766,8 +776,6 @@ function appendTaskIcons() {
     }
   });
 }
-
-// 1) SHOULD ALL BE WORKING -> NOW FIX ADDING TASK TO ARRAY OR CHANGING TASK NAME IN ARRAY!
 
 // Add functon that checks for the same names (no duplication) with projects
 
