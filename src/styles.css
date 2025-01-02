@@ -231,9 +231,14 @@ html {
 
 /* Selected project */
 .selected {
-  background-color: red;
+  background-color: rgba(255, 0, 0, 0.183);
   color: black;
 }
+
+.selected-p {
+  background-color: black;
+}
+
 
 /* Add task div */
 .circle-div {

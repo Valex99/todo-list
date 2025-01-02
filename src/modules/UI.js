@@ -142,6 +142,7 @@ function appendHeaderIcons() {
         const projectName = project.querySelector("p").textContent;
         if (projectName === selected) {
           project.classList.add("selected");
+          project.querySelector(".task-counter").classList.add("selected-p");
         }
       });
     }
@@ -257,6 +258,7 @@ function renderNewProject() {
 
   const taskCounter = document.createElement("p");
   taskCounter.classList.add("task-counter");
+  taskCounter.classList.add("selected-p");
 
   if (taskAmount(selected) === 0 && noTasksDivMessageExists === false) {
     noTasksDivMessage();
@@ -277,6 +279,7 @@ function renderNewProject() {
     const currentProjectDiv = document.querySelector(".current-project-div");
 
     projectDiv.classList.add("selected");
+    projectDiv.querySelector(".task-counter").classList.add("selected-p");
     selected = projectName.textContent;
     console.log("SELECTED: ", selected);
     currentProjectDiv.textContent = selected;
@@ -301,8 +304,10 @@ function renderNewProject() {
 // If there is any project with class selected - remove it
 function removeSelectedClass() {
   const selected = document.querySelector(".selected");
+  const selectedTaskCounter = document.querySelector(".selected-p");
   if (selected) {
     selected.classList.remove("selected");
+    selectedTaskCounter.classList.remove("selected-p");
   }
 }
 
@@ -768,9 +773,7 @@ function appendTaskIcons() {
 
 // Edit sub,it button with css -> default shoud be different and on hover and click as well
 
-// task counter background should go from gray to black
-
-// SORT ITEMS BY PRIORITY IN arraay
+// SORT ITEMS BY PRIORITY IN araay
 
 // Create local storage!
 
