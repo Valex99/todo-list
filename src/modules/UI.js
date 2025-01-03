@@ -496,6 +496,7 @@ function displayTaskModal() {
     }
   });
 
+  ////////////
   submitButton.addEventListener("click", () => {
     const description = descriptionTextarea.value.trim();
     const priority = prioritySelect.value;
@@ -515,13 +516,14 @@ function displayTaskModal() {
     addTaskToSelectedProject(selected, description, priority);
 
     selectedTask = description;
-
     // add code here to push description and priority into array
     const selectedProject = document.querySelector(".selected");
     const selectedTaskCounter = selectedProject.querySelector(".task-counter");
     selectedTaskCounter.textContent = taskAmount(selected);
 
+    console.log("OK");
     displayAllTasksForSelectedProject(selected);
+    console.log("NOT OK");
 
     if (description) {
       console.log("New Task:", { description, priority });
@@ -552,65 +554,10 @@ export function createAndAppendTasks(description, priority) {
   } else {
     priorityDiv.classList.add("lightblue");
   }
-
+  
   task.appendChild(priorityDiv);
   taskContainer.appendChild(task);
-  appendTaskIcons();
-  /*
-
-  // ADD AND APPEND ICONS
-  const iconsDiv = document.createElement("div");
-  iconsDiv.classList.add("icons-div");
-
-  const editIcon = document.createElement("img");
-  editIcon.classList.add("task-icon");
-  editIcon.classList.add("edit-icon");
-  editIcon.src = pencilIcon;
-  editIcon.alt = "Edit Icon";
-
-  const deleteIcon = document.createElement("img");
-  deleteIcon.classList.add("task-icon");
-  deleteIcon.classList.add("delete-icon");
-  deleteIcon.src = binIcon;
-  deleteIcon.alt = "Delete Icon";
-
-  iconsDiv.appendChild(editIcon);
-  iconsDiv.appendChild(deleteIcon);
-
-  task.appendChild(priorityDiv);
-  task.appendChild(iconsDiv);
-
-  taskContainer.appendChild(task);
-
-  // ADD EVENT LISTENERS FOR PENCIL AND BIN ICON
-  editIcon.addEventListener("click", function (e) {
-    // taskElement now holds the reference to last selected taskss div
-    const taskElement = e.target.closest(".task");
-    const taskName = taskElement.textContent;
-    console.log("selected task is: ", taskName);
-    editTaskModal(taskName, taskElement);
-  });
-
-  // WORKS
-  deleteIcon.addEventListener("click", function (e) {
-    const taskElement = e.target.closest(".task");
-    const taskName = taskElement.textContent;
-
-    taskContainer.removeChild(taskElement);
-
-    removeTaskFromArray(selected, taskName);
-
-    // Update task count for specific project
-    const selectedProject = document.querySelector(".selected");
-    const selectedTaskCounter = selectedProject.querySelector(".task-counter");
-    selectedTaskCounter.textContent = taskAmount(selected);
-
-    if (taskAmount(selected) === 0) {
-      noTasksDivMessage();
-    }
-  });
-
-*/
+  appendTaskIcons(task); // No argument was given to that function, thats why there was an error
 }
 
 function removeNoTaskDivMessage() {
@@ -620,8 +567,6 @@ function removeNoTaskDivMessage() {
   taskContainer.removeChild(emptyTaskDiv);
   noTasksDivMessageExists = false;
 }
-
-///////////////////////////////////
 
 function editTaskModal(taskName, taskElement) {
   const modalOverlay = document.createElement("div");
@@ -708,7 +653,7 @@ function editTaskModal(taskName, taskElement) {
       priorityDiv.classList.add("lightblue");
     }
 
-    appendTaskIcons();
+    appendTaskIcons(taskElement);
     changeTaskName(selected, taskName, description, priority); // Add priority.
 
     taskElement.appendChild(priorityDiv);
@@ -719,8 +664,9 @@ function editTaskModal(taskName, taskElement) {
   });
 }
 
-function appendTaskIcons() {
-  const task = document.querySelector(".task");
+function appendTaskIcons(taskElement) {
+  // This is probably wrong!
+  //const task = document.querySelector(".task");
 
   const taskContainer = document.querySelector(".task-container");
 
@@ -742,15 +688,14 @@ function appendTaskIcons() {
   iconsDiv.appendChild(editIcon);
   iconsDiv.appendChild(deleteIcon);
 
-  //task.appendChild(priorityDiv);
+  taskElement.appendChild(iconsDiv);
 
-  task.appendChild(iconsDiv);
-
-  taskContainer.appendChild(task);
+  taskContainer.appendChild(taskElement);
+  //taskContainer.appendChild(task); WORKS
 
   // ADD EVENT LISTENERS FOR PENCIL AND BIN ICON
   editIcon.addEventListener("click", function (e) {
-    // taskElement now holds the reference to last selected taskss div
+    // taskElement now holds the reference to last selected tasks div
     const taskElement = e.target.closest(".task");
     const taskName = taskElement.textContent;
     console.log("selected task is: ", taskName);
@@ -777,15 +722,20 @@ function appendTaskIcons() {
   });
 }
 
-// Add functon that checks for the same names (no duplication) with projects
-
 // Click on the task should add it to completed - line over text, less opacity
 // When projct is selecteed - task counmter should also turn black
 
 // FIGURE IT OUT WITH GIT...
 
-// SORT ITEMS BY PRIORITY IN araay
+// SORT ITEMS BY PRIORITY IN array -> Whenever a task is added call function
 
 // Create local storage!
 
-// Edit sub,it button with css -> default shoud be different and on hover and click as well
+// Fix appending icons on tasks
+
+// Problem
+// event.closest defined in  function
+// CHANGE NAME CALLS EDIT TASK MODAL
+// EDIT TASK MODAL TAKES IN 2 ARGUMENTS and calls append icons
+// LOOOP
+//

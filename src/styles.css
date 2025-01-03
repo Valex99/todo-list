@@ -155,21 +155,29 @@ html {
 }
 
 /* Submit button */
+/* Submit button */
 .modal-submit {
   width: 100%;
   padding: 10px;
   margin-top: 20px;
-  background: gray;
+  background: #333;
   border: none;
   color: white;
   font-size: 16px;
   cursor: pointer;
   border-radius: 4px;
+  transition: transform 0.1s ease, background-color 0.2s ease;
 }
 
 /* Add hover effect for submit button */
 .modal-submit:hover {
-  background: #333;
+  background: gray;
+}
+
+/* Add active state for submit button */
+.modal-submit:active {
+  transform: scale(0.95);
+  background: #555;
 }
 
 /* Add padding to the projects sidebar plus icon */
