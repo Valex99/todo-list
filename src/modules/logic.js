@@ -61,12 +61,6 @@ function addTaskToSelectedProject(
   taskDescription,
   taskPriority
 ) {
-  console.log(selectedProject, taskDescription, taskPriority);
-  // This finds the name of the current / selected project project
-  // const currentProject = projects.find(
-  //   (project) => project.name === selectedProject
-  // );
-
   const currentProject = findProjectName(selectedProject);
 
   currentProject.tasks.push({ name: taskDescription, priority: taskPriority });
@@ -77,6 +71,8 @@ function addTaskToSelectedProject(
 function displayAllTasksForSelectedProject(selectedProject) {
   // 1 -> Find selected project - stored in currentProject const
   const currentProject = findProjectName(selectedProject);
+
+  sortTasksByPriority(selectedProject);
   // 2 -> For each task of that selected project call createAndAppendTasks
   currentProject.tasks.forEach((task) => {
     // 3 -> Pass in as an argument (task name and task priority)
@@ -115,7 +111,8 @@ function changeTaskName(selectedProject, oldName, newName, priority) {
   // Update the task name
   currentProject.tasks[taskIndex].name = newName;
   currentProject.tasks[taskIndex].priority = priority;
-  return projects;
+  //return projects;
+  return sortTasksByPriority(selectedProject);
 }
 
 function checkForDuplication(projectName) {
@@ -126,6 +123,22 @@ function checkForDuplication(projectName) {
   }
 }
 
+function sortTasksByPriority(selectedProject) {
+  const currentProject = findProjectName(selectedProject);
+
+  // Priority order mapping - sort method works with numbers
+  const priorityOrder = {
+    "first-priority": 1,
+    "second-priority": 2,
+    "third-priority": 3,
+  };
+
+  // sort() function takes a comparion function as an argument
+  // It takes in 2 arguments (a and b) to determine their order
+  currentProject.tasks.sort((a, b) => {
+    return priorityOrder[a.priority] - priorityOrder[b.priority];
+  });
+}
 // I could make a function for finding / querying project name since i use it often in here
 export {
   addProject,

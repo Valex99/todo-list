@@ -521,9 +521,7 @@ function displayTaskModal() {
     const selectedTaskCounter = selectedProject.querySelector(".task-counter");
     selectedTaskCounter.textContent = taskAmount(selected);
 
-    console.log("OK");
     displayAllTasksForSelectedProject(selected);
-    console.log("NOT OK");
 
     if (description) {
       console.log("New Task:", { description, priority });
@@ -654,7 +652,7 @@ function editTaskModal(taskName, taskElement) {
     }
 
     appendTaskIcons(taskElement);
-    changeTaskName(selected, taskName, description, priority); // Add priority.
+    changeTaskName(selected, taskName, description, priority);
 
     taskElement.appendChild(priorityDiv);
 
@@ -730,12 +728,3 @@ function appendTaskIcons(taskElement) {
 // SORT ITEMS BY PRIORITY IN array -> Whenever a task is added call function
 
 // Create local storage!
-
-// Fix appending icons on tasks
-
-// Problem
-// event.closest defined in  function
-// CHANGE NAME CALLS EDIT TASK MODAL
-// EDIT TASK MODAL TAKES IN 2 ARGUMENTS and calls append icons
-// LOOOP
-//
