@@ -247,7 +247,6 @@ html {
   background-color: black;
 }
 
-
 /* Add task div */
 .circle-div {
   width: 50px;
@@ -387,4 +386,9 @@ html {
 .task-icon:active {
   transform: scale(0.9); /* Slightly shrink the icon */
   opacity: 0.8; /* Reduce opacity slightly */
+}
+
+/**/
+.marked {
+  opacity: 0.5;
 }

@@ -532,6 +532,7 @@ function displayTaskModal() {
   });
 }
 
+// Only called by display all tasks from logic.js
 export function createAndAppendTasks(description, priority) {
   const taskContainer = document.querySelector(".task-container");
 
@@ -552,7 +553,7 @@ export function createAndAppendTasks(description, priority) {
   } else {
     priorityDiv.classList.add("lightblue");
   }
-  
+
   task.appendChild(priorityDiv);
   taskContainer.appendChild(task);
   appendTaskIcons(task); // No argument was given to that function, thats why there was an error
@@ -637,7 +638,7 @@ function editTaskModal(taskName, taskElement) {
       return 0;
     }
 
-    const taskContainer = document.querySelector(".task-container")
+    const taskContainer = document.querySelector(".task-container");
     taskElement.textContent = description;
 
     // Color should be picked with IF (add class list to it)
@@ -654,9 +655,8 @@ function editTaskModal(taskName, taskElement) {
 
     changeTaskName(selected, taskName, description, priority);
 
-
     taskContainer.innerHTML = "";
-    displayAllTasksForSelectedProject(selected)
+    displayAllTasksForSelectedProject(selected);
     //appendTaskIcons(taskElement);
     // Changes task name in logic.js
     //changeTaskName(selected, taskName, description, priority);
@@ -724,13 +724,22 @@ function appendTaskIcons(taskElement) {
       noTasksDivMessage();
     }
   });
+
+  // ADD EVENT LISTENER TO MAKE TASK MARKED
+  taskElement.addEventListener("click", function (e) {
+    const taskElement = e.target.closest(".task");
+    const taskName = taskElement.textContent;
+
+    // ON THE CLICK ->
+    // Call function that checks for specific project IF that task is completed
+    // Add to tasks array marked boolean
+
+    console.log("Task element with task name:", taskName, "clicked");
+  });
 }
 
-// Click on the task should add it to completed - line over text, less opacity
-// When projct is selecteed - task counmter should also turn black
+//1 Create local storage!
 
-// FIGURE IT OUT WITH GIT...
+//2 FIGURE IT OUT WITH GIT...
 
-// SORT ITEMS BY PRIORITY IN array -> Whenever a task is added call function
-
-// Create local storage!
+//3 Click on the task should add it to completed - line over text, less opacity
