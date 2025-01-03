@@ -637,6 +637,7 @@ function editTaskModal(taskName, taskElement) {
       return 0;
     }
 
+    const taskContainer = document.querySelector(".task-container")
     taskElement.textContent = description;
 
     // Color should be picked with IF (add class list to it)
@@ -651,11 +652,16 @@ function editTaskModal(taskName, taskElement) {
       priorityDiv.classList.add("lightblue");
     }
 
-    appendTaskIcons(taskElement);
     changeTaskName(selected, taskName, description, priority);
 
-    taskElement.appendChild(priorityDiv);
 
+    taskContainer.innerHTML = "";
+    displayAllTasksForSelectedProject(selected)
+    //appendTaskIcons(taskElement);
+    // Changes task name in logic.js
+    //changeTaskName(selected, taskName, description, priority);
+
+    taskElement.appendChild(priorityDiv);
     document.body.removeChild(modalOverlay);
 
     // WHEN YOU CHANGE TASK NAME -> Push that name into array as well
